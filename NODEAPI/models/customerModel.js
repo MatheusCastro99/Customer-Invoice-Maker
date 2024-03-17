@@ -21,6 +21,11 @@ const customerSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
+    deceased: {
+      type: Boolean,
+      required: false,
+    },
   },
 
   {
