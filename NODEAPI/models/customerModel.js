@@ -9,7 +9,7 @@ const customerSchema = mongoose.Schema(
 
     age: {
       type: Number,
-      required: true,
+      required: [true, "please enter customer age"],
     },
 
     occupation: {
@@ -22,7 +22,12 @@ const customerSchema = mongoose.Schema(
       required: false,
     },
   },
+
   {
-    //https://www.youtube.com/watch?v=9OfL9H6AmhQ&t=0s 24 min
+    timestamps: true,
   }
 );
+
+const CustomerModel = mongoose.model("Customer", customerSchema);
+
+module.exports = CustomerModel;
