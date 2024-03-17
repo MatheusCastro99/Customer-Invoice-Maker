@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const CustomerModel = require("./models/customerModel");
-const app = express();
 
+const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -19,7 +19,7 @@ app.post("/customer", async (req, res) => {
     res.send(req.body);
   } catch (error) {
     console.log(error.message);
-    console.log(req.body); //ERROR Body is coming back empty
+    console.log(req.body); //ERROR Body is coming back empty, try route implementation
 
     /*
       {
