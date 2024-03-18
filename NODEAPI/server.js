@@ -15,6 +15,7 @@ app.use(
   })
 );
 
+//Route path
 app.use("/api/customer", customerRoute);
 
 app.get("/", (req, res) => {
