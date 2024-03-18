@@ -2,11 +2,15 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const customerRoute = require("./routes/customerRoute");
+const errorMiddleware = require("./middlewares/errorMiddleware");
 
 const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT;
+const NODE_ENV = process.env.NODE_ENV;
 
 const app = express();
+
+//Middlewares
 
 app.use(express.json());
 app.use(
@@ -15,7 +19,7 @@ app.use(
   })
 );
 
-//Route path
+//Route path, this is all server functionalities
 app.use("/api/customer", customerRoute);
 
 app.get("/", (req, res) => {
@@ -38,4 +42,6 @@ mongoose
     console.log(error);
   });
 
-//https://www.youtube.com/watch?v=v_pcW65DGu8 @ 2030
+app.use(errorMiddleware);
+
+//https://www.youtube.com/watch?v=v_pcW65DGu8 @ 3320

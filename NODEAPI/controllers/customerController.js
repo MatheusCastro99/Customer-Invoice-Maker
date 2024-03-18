@@ -1,69 +1,76 @@
 const CustomerModel = require("../models/customerModel");
+const asyncHandler = require("express-async-handler");
 
 //All the actual logic goes in a Controller, and the is exported to other areas
 
 //Read (GET) logic
-const getCustomer = async (req, res) => {
+const getCustomer = asyncHandler(async (req, res) => {
   try {
     const customer = await CustomerModel.find({});
     res.status(200).json(customer);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500);
+    throw new Error("Something broke, please shed a tear for your dev friend");
   }
-};
+});
 
-const getCustomerByID = async (req, res) => {
+const getCustomerByID = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const customer = await CustomerModel.findById(id);
     res.status(200).json(customer);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    //Regular errorMiddleware will not work inside async functions, use async express route error handler
+    res.status(500);
+    throw new Error("Customer not found");
   }
-};
+});
 
 //Create (POST) logic
-const postCustomer = async (req, res) => {
+const postCustomer = asyncHandler(async (req, res) => {
   try {
     const customer = await CustomerModel.create(req.body);
     res.status(200);
     res.json(customer);
   } catch (error) {
-    console.log(error.message);
-    console.log(req.body);
-    res.status(500).json({ message: error.message });
+    res.status(500);
+    throw new Error("Could not create new customer at this time");
   }
-};
+});
 
 //UPDATE logic
-const updateCustomer = async (req, res) => {
+const updateCustomer = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const customer = await CustomerModel.findByIdAndUpdate(id, req.body);
     if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+      res.status(404);
+      throw new Error("Customer not found");
     }
     const customerUpdated = await CustomerModel.findById(id);
-    console.log("Customer update. New values", customerUpdated);
+    console.log("Customer update. New values:", customerUpdated);
     res.status(200).json(customerUpdated);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500);
+    throw new Error("Could not update customer at this time");
   }
-};
+});
 
 //DELETE logic
-const delCustomer = async (req, res) => {
+const delCustomer = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const customer = await CustomerModel.findByIdAndDelete(id);
     if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+      res.status(404);
+      throw new Error("Customer not found");
     }
     res.status(200).json(customer);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500);
+    throw new Error("Could not delete customer at this time");
   }
-};
+});
 
 module.exports = {
   getCustomer,

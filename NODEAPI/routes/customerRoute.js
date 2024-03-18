@@ -1,5 +1,4 @@
 const express = require("express");
-const CustomerModel = require("../models/customerModel");
 const {
   getCustomer,
   getCustomerByID,
@@ -9,6 +8,8 @@ const {
 } = require("../controllers/customerController");
 
 const router = express.Router();
+
+//This file contains server functionalities
 
 //CREATE
 router.post("/", postCustomer);
