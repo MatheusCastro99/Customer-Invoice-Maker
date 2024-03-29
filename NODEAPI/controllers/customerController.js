@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 //All the actual logic goes in a Controller, and the is exported to other areas
 
 //Read (GET) logic
-const getCustomer = asyncHandler(async (req, res) => {
+const getCustomers = asyncHandler(async (req, res) => {
   try {
     const customer = await CustomerModel.find({});
     res.status(200).json(customer);
@@ -29,7 +29,7 @@ const getCustomerByID = asyncHandler(async (req, res) => {
 //Create (POST) logic
 const postCustomer = asyncHandler(async (req, res) => {
   try {
-    const customer = await CustomerModel.create(req.body);
+    var customer = await CustomerModel.create(req.body);
     res.status(200);
     res.json(customer);
   } catch (error) {
@@ -73,7 +73,7 @@ const delCustomer = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getCustomer,
+  getCustomers,
   getCustomerByID,
   postCustomer,
   updateCustomer,

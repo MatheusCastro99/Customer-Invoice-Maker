@@ -17,7 +17,7 @@ const customerSchema = mongoose.Schema(
       required: false,
     },
 
-    profileIMG: {
+    image: {
       type: String,
       required: false,
     },

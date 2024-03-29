@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getCustomer,
+  getCustomers,
   getCustomerByID,
   postCustomer,
   updateCustomer,
@@ -15,7 +15,7 @@ const router = express.Router();
 router.post("/", postCustomer);
 
 //READ
-router.get("/", getCustomer);
+router.get("/", getCustomers);
 
 router.get("/:id", getCustomerByID);
 

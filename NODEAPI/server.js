@@ -3,13 +3,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const customerRoute = require("./routes/customerRoute");
 const errorMiddleware = require("./middlewares/errorMiddleware");
+const cors = require("cors");
 
 const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT;
 const NODE_ENV = process.env.NODE_ENV;
+const FRONTEND = process.env.FRONTEND;
 
 const app = express();
-
+const corsAddress = {
+  origin: FRONTEND, //can be used in array[] form to allow multiple origins
+  successStatus: 200, //204 for some legacy browsers
+};
 //Middlewares
 
 app.use(express.json());
@@ -18,6 +23,7 @@ app.use(
     extended: true,
   })
 );
+app.use(cors(corsAddress));
 
 //Route path, this is all server functionalities
 app.use("/api/customer", customerRoute);
