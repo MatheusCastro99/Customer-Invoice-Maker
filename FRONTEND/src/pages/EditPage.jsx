@@ -9,9 +9,9 @@ const EditPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [customer, setCustomer] = useState({
-    name: "",
-    age: "",
-    occupation: "",
+    companyName: "",
+    phoneNumber: "",
+    contactName: "",
     image: "",
   });
 
@@ -20,9 +20,9 @@ const EditPage = () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/customer/${id}`);
       setCustomer({
-        name: response.data.name,
-        age: response.data.age,
-        occupation: response.data.occupation,
+        companyName: response.data.companyName,
+        phoneNumber: response.data.phoneNumber,
+        contactName: response.data.contactName,
         image: response.data.image,
       });
       setIsLoading(false);
@@ -60,44 +60,44 @@ const EditPage = () => {
             <div className="space-y-2">
               <div>
                 <label className="text-gray-600 mb-2 block font-semibold">
-                  Name
+                  Company Name
                 </label>
                 <input
                   type="text"
-                  value={customer.name}
+                  value={customer.companyName}
                   onChange={(e) =>
-                    setCustomer({ ...customer, name: e.target.value })
+                    setCustomer({ ...customer, companyName: e.target.value })
                   }
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
-                  placeholder="Name"
+                  placeholder="Company Name"
                 />
               </div>
               <div>
                 <label className="text-gray-600 mb-2 block font-semibold">
-                  Age
+                  Phone Number
                 </label>
                 <input
                   type="text"
-                  value={customer.age}
+                  value={customer.phoneNumber}
                   onChange={(e) =>
-                    setCustomer({ ...customer, age: e.target.value })
+                    setCustomer({ ...customer, phoneNumber: e.target.value })
                   }
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
-                  placeholder="Age"
+                  placeholder="Phone Number"
                 />
               </div>
               <div>
                 <label className="text-gray-600 mb-2 block font-semibold">
-                  Occupation
+                  Contact Name
                 </label>
                 <input
                   type="text"
-                  value={customer.occupation}
+                  value={customer.contactName}
                   onChange={(e) =>
-                    setCustomer({ ...customer, occupation: e.target.value })
+                    setCustomer({ ...customer, contactName: e.target.value })
                   }
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
-                  placeholder="Occupation"
+                  placeholder="Contact Name"
                 />
               </div>
               <div>

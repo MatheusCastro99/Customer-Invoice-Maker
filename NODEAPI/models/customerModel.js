@@ -2,19 +2,19 @@ const mongoose = require("mongoose");
 
 const customerSchema = mongoose.Schema(
   {
-    name: {
+    companyName: {
       type: String,
-      required: [true, "please enter customer name"],
+      required: [true, "please enter the company name"],
     },
 
-    age: {
+    phoneNumber: {
       type: Number,
-      required: [true, "please enter customer age"],
+      required: [true, "please enter the phone number"],
     },
 
-    occupation: {
+    contactName: {
       type: String,
-      required: false,
+      required: [true, "please enter the contact name"],
     },
 
     image: {
@@ -22,10 +22,16 @@ const customerSchema = mongoose.Schema(
       required: false,
     },
 
-    deceased: {
-      type: Boolean,
+    streetAddress: {
+      type: String,
       required: false,
     },
+
+    cityAddress: { type: String, required: false },
+
+    stateAddress: { type: String, required: false },
+
+    zipAddress: { type: Number, required: false },
   },
 
   {
@@ -36,3 +42,16 @@ const customerSchema = mongoose.Schema(
 const CustomerModel = mongoose.model("Customer", customerSchema);
 
 module.exports = CustomerModel;
+
+/*
+MODIFIED:
+name = companyName
+age = phoneNumber
+occupation = contactName
+deceased = streetAddress (boolean > string)
+
+ADDED:
+cityAddress
+stateAddress
+zipAddress
+*/

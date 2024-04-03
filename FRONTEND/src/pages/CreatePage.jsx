@@ -6,16 +6,16 @@ import { toast } from "react-toastify";
 
 const CreatePage = () => {
 
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [occupation, setOccupation] = useState("");
+    const [companyName, setCompanyName] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [contactName, setContactName] = useState("");
     let [image, setImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const saveCustomer = async(e) => {
         e.preventDefault();
-        if(name === "" || age === ""){
+        if(companyName === "" || phoneNumber === ""){
             toast.error('Please fill out all input completely');
             return;
         }
@@ -27,8 +27,8 @@ const CreatePage = () => {
 
         try {
             setIsLoading(true);
-            const response = await axios.post("http://localhost:3000/api/customer", {name: name, age: age, occupation: occupation, image: image});
-            toast.success(`Save ${response.data.name} Successfully`);
+            const response = await axios.post("http://localhost:3000/api/customer", {companyName: companyName, phoneNumber: phoneNumber, contactName: contactName, image: image});
+            toast.success(`Save ${response.data.companyName} Successfully`);
             setIsLoading(false);
             navigate("/");
         } catch (error) {
@@ -46,16 +46,16 @@ const CreatePage = () => {
             <form onSubmit={saveCustomer}>
                 <div className="space-y-2">
                     <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Name" />
+                        <label className="text-gray-600 mb-2 block font-semibold">Company Name</label>
+                        <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
                     </div>
                     <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Age</label>
-                        <input type="number" value={age} onChange={(e) => setAge(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Age" />
+                        <label className="text-gray-600 mb-2 block font-semibold">Phone Number</label>
+                        <input type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Phone Number" />
                     </div>
                     <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Occupation</label>
-                        <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Occupation" />
+                        <label className="text-gray-600 mb-2 block font-semibold">Contact Name</label>
+                        <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Contact Name" />
                     </div>
                     <div>
                         <label className="text-gray-600 mb-2 block font-semibold">Image URL</label>

@@ -27,9 +27,9 @@ const Customer = ({ customer, getCustomers }) => {
     <div className="bg-white rounded shadow-lg overflow-hidden">
       <img src={customer.image} className="w-full h-28 object-contain" />
       <div className="px-4 pt-2 pb-4">
-        <h2 className="text font-semibold">{customer.name}</h2>
-        <div className="text-sm">Age: {customer.age}</div>
-        <div className="text-sm">Occupation: {customer.occupation}</div>
+        <h2 className="text font-semibold">{customer.companyName}</h2>
+        <div className="text-sm">Phone Number: {customer.phoneNumber}</div>
+        <div className="text-sm">Contact Name: {customer.contactName}</div>
 
         <div className="mt-2 flex gap-4">
           <Link

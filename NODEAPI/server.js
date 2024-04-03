@@ -28,6 +28,8 @@ app.use(cors(corsAddress));
 //Route path, this is all server functionalities
 app.use("/api/customer", customerRoute);
 
+//app.use("/api/invoice", invoiceRoute);
+
 app.get("/", (req, res) => {
   res.send("NODE API");
 });

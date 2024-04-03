@@ -1,5 +1,7 @@
 const errorMiddleware = (err, req, res, next) => {
-  console.log("Error dumbass");
+  console.log(
+    "Something went wrong, please try again. If the error persists, reaccess the code"
+  );
   const statusCode = res.statusCode ? res.statusCode : 500;
   res.status(statusCode).json({
     message: err.message,

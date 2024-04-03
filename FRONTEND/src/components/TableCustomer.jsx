@@ -29,9 +29,9 @@ const TableCustomer = ({ customers, getCustomers }) => {
       <table className="table-auto mx-auto bg-white">
         <thead className="bg-gray-200">
           <tr>
-            <th className="text-left px-4 py-2">Name</th>
-            <th className="text-left px-4 py-2">Age</th>
-            <th className="text-left px-4 py-2">Occupation</th>
+            <th className="text-left px-4 py-2">Company Name</th>
+            <th className="text-left px-4 py-2">Phone Number</th>
+            <th className="text-left px-4 py-2">Contact Name</th>
             <th className="w-20 px-4 py-2">Image</th>
             <th className="text-left px-4 py-2">Action</th>
           </tr>
@@ -40,9 +40,9 @@ const TableCustomer = ({ customers, getCustomers }) => {
           {customers.map((customer, index) => {
             return (
               <tr key={index}>
-                <td className="p-4 border-b ">{customer.name}</td>
-                <td className="p-4 border-b ">{customer.age}</td>
-                <td className="p-4 border-b ">{customer.occupation}</td>
+                <td className="p-4 border-b ">{customer.companyName}</td>
+                <td className="p-4 border-b ">{customer.phoneNumber}</td>
+                <td className="p-4 border-b ">{customer.contactName}</td>
                 <td className="p-4 border-b ">
                     <img src={customer.image} className="w-full"/>
                 </td>
