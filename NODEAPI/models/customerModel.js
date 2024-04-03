@@ -27,11 +27,20 @@ const customerSchema = mongoose.Schema(
       required: false,
     },
 
-    cityAddress: { type: String, required: false },
+    cityAddress: {
+      type: String,
+      required: false,
+    },
 
-    stateAddress: { type: String, required: false },
+    stateAddress: {
+      type: String,
+      required: false,
+    },
 
-    zipAddress: { type: Number, required: false },
+    zipAddress: {
+      type: Number,
+      required: false,
+    },
   },
 
   {

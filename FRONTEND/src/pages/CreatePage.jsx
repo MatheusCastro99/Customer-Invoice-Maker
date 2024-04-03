@@ -9,6 +9,10 @@ const CreatePage = () => {
     const [companyName, setCompanyName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [contactName, setContactName] = useState("");
+    const [streetAddress, setStreetAddress] = useState("");
+    const [cityAddress, setCityAddress] = useState("");
+    const [stateAddress, setStateAddress] = useState("");
+    const [zipAddress, setZipAddress] = useState("");
     let [image, setImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -27,7 +31,10 @@ const CreatePage = () => {
 
         try {
             setIsLoading(true);
-            const response = await axios.post("http://localhost:3000/api/customer", {companyName: companyName, phoneNumber: phoneNumber, contactName: contactName, image: image});
+            const response = await axios.post("http://localhost:3000/api/customer", 
+            {
+                companyName: companyName, phoneNumber: phoneNumber, contactName: contactName, image: image, streetAddress:streetAddress, cityAddress: cityAddress, stateAddress: stateAddress, zipAddress: zipAddress
+            });
             toast.success(`Save ${response.data.companyName} Successfully`);
             setIsLoading(false);
             navigate("/");
@@ -46,20 +53,42 @@ const CreatePage = () => {
             <form onSubmit={saveCustomer}>
                 <div className="space-y-2">
                     <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Company Name</label>
-                        <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
+                        <label className="text-gray-600 blockInfoStyle">Contact Info</label>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">Company Name</label>
+                            <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
+                        </div>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">Phone Number</label>
+                            <input type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Phone Number" />
+                        </div>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">Contact Name</label>
+                            <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Contact Name" />
+                        </div>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">Image URL</label>
+                            <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Image URL" />
+                        </div>
                     </div>
                     <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Phone Number</label>
-                        <input type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Phone Number" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Contact Name</label>
-                        <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Contact Name" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block font-semibold">Image URL</label>
-                        <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Image URL" />
+                        <label className="text-gray-600 blockInfoStyle">Address Info</label>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">Street</label>
+                            <input type="text" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Street Address" />
+                        </div>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">City</label>
+                            <input type="text" value={cityAddress} onChange={(e) => setCityAddress(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="City" />
+                        </div>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">State</label>
+                            <input type="text" value={stateAddress} onChange={(e) => setStateAddress(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="State" />
+                        </div>
+                        <div>
+                            <label className="text-gray-600 mb-2 block font-semibold">Zip Code</label>
+                            <input type="text" value={zipAddress} onChange={(e) => setZipAddress(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Zip Code" />
+                        </div>
                     </div>
                     <div>
                         { !isLoading &&  (<button className="block w-full mt-6 bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">Save</button>)}

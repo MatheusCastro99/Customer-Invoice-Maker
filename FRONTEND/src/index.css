@@ -7,3 +7,8 @@
     @apply bg-slate-400;
   }
 }
+
+.blockInfoStyle {
+  font-size: large;
+  color:#757575;
+}
