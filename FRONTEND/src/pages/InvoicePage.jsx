@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {Label, Select, Dropdown, DropdownItem} from "flowbite-react"
-
+//import customerController from "../../../NODEAPI/controllers/customerController" REFACTOR THROUGH CORS
 
 const InvoicePage = () => {
-    const jobPrice = typeof(Number);
-    const jobDescription = typeof(String);
+    const [jobPrice, setJobPrice] = useState(Number)
+    const [jobDescription, setJobDescription] = useState(Text);
 
     const [customers, setCustomers] = useState([]);
     const [tempCustomer, setTempCustomer] = useState([]);
-    const requestInfo = async (e) => {
+    const requestInfo = async (e) => { //refactor
         try {
             if(e.target.value == "Select Company") {
               setTempCustomer([]);
@@ -26,7 +26,7 @@ const InvoicePage = () => {
         }
     }
 
-    const fetchData = async () => {
+    const fetchData = async () => { //refactor
         try {
             const response = await axios.get("http://localhost:3000/api/customer");
             setCustomers(response.data)
