@@ -7,7 +7,7 @@ import {Label, Select, Dropdown, DropdownItem} from "flowbite-react"
 
 const InvoicePage = () => {
     const [jobPrice, setJobPrice] = useState(Number)
-    const [jobDescription, setJobDescription] = useState(Text);
+    const [jobDescription, setJobDescription] = useState();
 
     const [customers, setCustomers] = useState([]);
     const [tempCustomer, setTempCustomer] = useState([]);
@@ -18,7 +18,6 @@ const InvoicePage = () => {
               return;
             }
             const info = await axios.get(`http://localhost:3000/api/customer/${e.target.value}`);
-            console.log(info);
             setTempCustomer(info.data);
             console.log(tempCustomer);
         } catch (error) {
@@ -36,7 +35,7 @@ const InvoicePage = () => {
         }}
 
     useEffect( () => {fetchData()},[]);
-
+                                            //ADD ID TO ALL FORM FIELDS
         return (
             <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
                 <h2 className="font-semibold text-2xl mb-4 block text-center">
