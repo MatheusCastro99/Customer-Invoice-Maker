@@ -13,6 +13,10 @@ const EditPage = () => {
     phoneNumber: "",
     contactName: "",
     image: "",
+    streetAddress: "",
+    cityAddress: "",
+    stateAddress: "",
+    zipAddress: "",
   });
 
   const getCustomer = async () => {
@@ -24,6 +28,10 @@ const EditPage = () => {
         phoneNumber: response.data.phoneNumber,
         contactName: response.data.contactName,
         image: response.data.image,
+        streetAddress: response.data.streetAddress,
+        cityAddress: response.data.cityAddress,
+        stateAddress: response.data.stateAddress,
+        zipAddress: response.data.zipAddress,
       });
       setIsLoading(false);
     } catch (error) {
@@ -119,6 +127,62 @@ const EditPage = () => {
                     <img className="w-full" src={customer.image} />
                   </div>
                 )}
+              </div>
+              <div>
+                <label className="text-gray-600 mb-2 block font-semibold">
+                  Street Address
+                </label>
+                <input
+                  type="text"
+                  value={customer.streetAddress}
+                  onChange={(e) =>
+                    setCustomer({ ...customer, streetAddress: e.target.value })
+                  }
+                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
+                  placeholder="Street Address"
+                />
+              </div>
+              <div>
+                <label className="text-gray-600 mb-2 block font-semibold">
+                  City
+                </label>
+                <input
+                  type="text"
+                  value={customer.cityAddress}
+                  onChange={(e) =>
+                    setCustomer({ ...customer, cityAddress: e.target.value })
+                  }
+                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
+                  placeholder="City"
+                />
+              </div>
+              <div>
+                <label className="text-gray-600 mb-2 block font-semibold">
+                  State
+                </label>
+                <input
+                  type="text"
+                  value={customer.stateAddress}
+                  onChange={(e) =>
+                    setCustomer({ ...customer, stateAddress: e.target.value })
+                  }
+                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
+                  placeholder="State Address"
+                />
+              </div>
+              <div>
+                <label className="text-gray-600 mb-2 block font-semibold">
+                  Zip Code
+                </label>
+                <input
+                  type="text"
+                  value={customer.zipAddress}
+                  onChange={(e) =>
+                    setCustomer({ ...customer, zipAddress: e.target.value })
+                  }
+                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
+                  placeholder="Zip Code"
+                />
               </div>
               <div>
                 <button className="block w-full mt-6 bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">
