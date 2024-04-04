@@ -10,11 +10,19 @@ const InvoicePage = () => {
     const jobDescription = typeof(String);
 
     const [customers, setCustomers] = useState([]);
-    const requestInfo = (e) => {
+    const [tempCustomer, setTempCustomer] = useState([]);
+    const requestInfo = async (e) => {
         try {
-            console.log(e.target.value)
+            if(e.target.value == "Select Company") {
+              setTempCustomer([]);
+              return;
+            }
+            const info = await axios.get(`http://localhost:3000/api/customer/${e.target.value}`);
+            console.log(info);
+            setTempCustomer(info.data);
+            console.log(tempCustomer);
         } catch (error) {
-            
+            setTempCustomer([])
         }
     }
 
@@ -41,105 +49,113 @@ const InvoicePage = () => {
                             <option>Select Company</option>
                             {customers?.map((customers, index) => {
                                 return(
-                                    <option key={index}>{customers.companyName} </option>
+                                    <option value={customers._id} key={index}> {customers.companyName} </option>
                                 )
                             })}
                         </Select>
                     </div>
-                        <div>
-                <label className="mb-2 mt-4 block font-semibold">
-                  Company Name
-                </label>
-                <input
-                  type="text"
-                  value={customers.companyName}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="Company Name"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  value={customers.phoneNumber}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="Phone Number"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  Contact Name
-                </label>
-                <input
-                  type="text"
-                  value={customers.contactName}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="Contact Name"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  Image URL
-                </label>
-                <input
-                  type="text"
-                  value={customers.image}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="Image URL"
-                />
+                    <div>
+                      <label className="mb-2 mt-4 block font-semibold">
+                        Company Name
+                      </label>
+                      <input
+                        readOnly={true} 
+                        type="text"
+                        value={tempCustomer.companyName || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="Company Name"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Phone Number
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.phoneNumber || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="Phone Number"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Contact Name
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.contactName || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="Contact Name"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Image URL
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.image || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="Image URL"
+                      />
 
-                {customers.image && (
-                  <div className="w-1/2 border rounded p-2 mt-4 ">
-                    <img className="w-full" src={customers.image} />
-                  </div>
-                )}
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  Street Address
-                </label>
-                <input
-                  type="text"
-                  value={customers.streetAddress}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="Street Address"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  City
-                </label>
-                <input
-                  type="text"
-                  value={customers.cityAddress}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="City"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  State
-                </label>
-                <input
-                  type="text"
-                  value={customers.stateAddress}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="State Address"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block font-semibold">
-                  Zip Code
-                </label>
-                <input
-                  type="text"
-                  value={customers.zipAddress}
-                  className="font-semibold text-xl mb-2 block text-center"
-                  //placeholder="Zip Code"
-                />
-              </div>
+                      {tempCustomer.image && (
+                        <div className="w-1/2 border rounded p-2 mt-4 ">
+                          <img className="w-full" src={tempCustomer.image} />
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Street Address
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.streetAddress || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="Street Address"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        City
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.cityAddress || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="City"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        State
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.stateAddress || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="State Address"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Zip Code
+                      </label>
+                      <input
+                        readOnly={true}
+                        type="text"
+                        value={tempCustomer.zipAddress || ''}
+                        className="font-semibold text-xl mb-2 block text-center"
+                        //placeholder="Zip Code"
+                      />
+                    </div>
                 </div>
                     
             </div>
