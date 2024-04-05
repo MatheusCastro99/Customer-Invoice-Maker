@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
+import CustomerInfo from "../components/CustomerInfo";
 //REFACTOR THROUGH CORS
 
 const InvoicePage = () => {
@@ -10,19 +11,25 @@ const InvoicePage = () => {
     const [jobDescription, setJobDescription] = useState();
     const [customers, setCustomers] = useState([]);
     const [tempCustomer, setTempCustomer] = useState([]);
+    const [correspondingTax, setCorrespondingTax] = useState()
+    let totalPrice = Number(jobPrice)+jobPrice*(correspondingTax/100)
 
     const requestInfo = async (e) => { //refactor
         try {
             if(e.target.value == "Select Company") {
               setTempCustomer([]);
+              setCorrespondingTax();
               return;
             }
             const info = await axios.get(`http://localhost:3000/api/customer/${e.target.value}`);
             setTempCustomer(info.data);
-            console.log(tempCustomer);
+            handleTax(info.data.stateAddress);
+            <CustomerInfo
+              customer = {tempCustomer}/>;
         } catch (error) {
             setTempCustomer([])
         }
+        
     }
 
     const handleJobDescription = (e) => {
@@ -31,6 +38,26 @@ const InvoicePage = () => {
     const handleJobPrice = (e) => {
       setJobPrice(e.target.value)
       }
+    const handleTax = (state) => {
+      switch (state) {
+        case "NJ":
+          setCorrespondingTax(6.625)
+          break;
+        case "PA":
+          setCorrespondingTax(6)
+          break;
+        case "NY":
+          setCorrespondingTax(8.53)
+          break;
+        case "FL":
+          setCorrespondingTax(6)
+          break;
+      
+        default:
+          setCorrespondingTax("Please add tax rate manually")
+          break;
+      }
+    }
 
     const fetchData = async () => { //refactor
         try {
@@ -61,106 +88,8 @@ const InvoicePage = () => {
                         </Select>
                     </div>
                     <div>
-                      <label className="mb-2 mt-4 block font-semibold">
-                        Company Name
-                      </label>
-                      <input
-                        readOnly={true} 
-                        type="text"
-                        value={tempCustomer.companyName || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="Company Name"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Phone Number
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.phoneNumber || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="Phone Number"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Contact Name
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.contactName || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="Contact Name"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Image URL
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.image || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="Image URL"
-                      />
-
-                      {tempCustomer.image && (
-                        <div className="w-1/2 border rounded p-2 mt-4 ">
-                          <img className="w-full" src={tempCustomer.image} />
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Street Address
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.streetAddress || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="Street Address"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        City
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.cityAddress || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="City"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        State
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.stateAddress || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="State Address"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Zip Code
-                      </label>
-                      <input
-                        readOnly={true}
-                        type="text"
-                        value={tempCustomer.zipAddress || ''}
-                        className="font-semibold text-xl mb-2 block text-center"
-                        //placeholder="Zip Code"
-                      />
+                      <CustomerInfo
+                        customer = {tempCustomer}/>
                     </div>
                 </div>
                 <div className="w-full px-10 mt-5">
@@ -176,11 +105,11 @@ const InvoicePage = () => {
                       <label className="mb-2 block font-semibold">
                         Job Description
                       </label>
-                      <input
+                      <textarea
                         type="text"
                         value={jobDescription || ''}
                         onChange={handleJobDescription}
-                        className="font-semibold text-lg mb-2 block text-center"
+                        className="w-full font-semibold text-lg mb-2 block text-center"
                         placeholder="Enter Job Description"
                       />
                     </div>
@@ -192,7 +121,7 @@ const InvoicePage = () => {
                         type="text"
                         value={jobPrice || ''}
                         onChange={handleJobPrice}
-                        className="font-semibold text-lg mb-2 block text-center"
+                        className="w-full font-semibold text-lg mb-2 block text-center"
                         placeholder="Enter Job Subtotal"
                       />
                     </div>
@@ -203,9 +132,21 @@ const InvoicePage = () => {
                       <input
                         readOnly = {true}
                         type="text"
-                        value={''} //retrieve from selected company and add the corresponding tax percentage
-                        className="font-semibold text-lg mb-2 block text-center"
+                        value={[tempCustomer.stateAddress+":  "+ correspondingTax+"%                "+ "$"+(jobPrice*correspondingTax/100)]|| ''} //retrieve from selected company and add the corresponding tax percentage
+                        className="w-full font-semibold text-lg mb-2 block text-center"
                         placeholder="State Taxes"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Total
+                      </label>
+                      <input
+                        readOnly = {true}
+                        type="text"
+                        value={totalPrice|| ''} //retrieve from selected company and add the corresponding tax percentage
+                        className="w-full font-semibold text-lg mb-2 block text-center"
+                        placeholder="Total Price"
                       />
                     </div>
                 </div>
