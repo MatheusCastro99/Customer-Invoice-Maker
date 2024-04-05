@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import axios from "axios";
-import {Label, Select, Dropdown, DropdownItem} from "flowbite-react"
-//import customerController from "../../../NODEAPI/controllers/customerController" REFACTOR THROUGH CORS
+import {Select} from "flowbite-react"
+import Divider from '@mui/material/Divider'
+//REFACTOR THROUGH CORS
 
 const InvoicePage = () => {
     const [jobPrice, setJobPrice] = useState(Number)
     const [jobDescription, setJobDescription] = useState();
-
     const [customers, setCustomers] = useState([]);
     const [tempCustomer, setTempCustomer] = useState([]);
+
     const requestInfo = async (e) => { //refactor
         try {
             if(e.target.value == "Select Company") {
@@ -24,6 +24,13 @@ const InvoicePage = () => {
             setTempCustomer([])
         }
     }
+
+    const handleJobDescription = (e) => {
+    setJobDescription(e.target.value)
+    }
+    const handleJobPrice = (e) => {
+      setJobPrice(e.target.value)
+      }
 
     const fetchData = async () => { //refactor
         try {
@@ -153,6 +160,52 @@ const InvoicePage = () => {
                         value={tempCustomer.zipAddress || ''}
                         className="font-semibold text-xl mb-2 block text-center"
                         //placeholder="Zip Code"
+                      />
+                    </div>
+                </div>
+                <div className="w-full px-10 mt-5">
+                <Link
+                  to={`/edit/${tempCustomer._id}`}
+                  className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
+                  Update
+                </Link>
+                </div>
+                <div className="mt-4">
+                  <Divider className="bg-color-red">Job Information</Divider>
+                  <div>
+                      <label className="mb-2 block font-semibold">
+                        Job Description
+                      </label>
+                      <input
+                        type="text"
+                        value={jobDescription || ''}
+                        onChange={handleJobDescription}
+                        className="font-semibold text-lg mb-2 block text-center"
+                        placeholder="Enter Job Description"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Subtotal
+                      </label>
+                      <input
+                        type="text"
+                        value={jobPrice || ''}
+                        onChange={handleJobPrice}
+                        className="font-semibold text-lg mb-2 block text-center"
+                        placeholder="Enter Job Subtotal"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-2 block font-semibold">
+                        Taxes
+                      </label>
+                      <input
+                        readOnly = {true}
+                        type="text"
+                        value={''} //retrieve from selected company and add the corresponding tax percentage
+                        className="font-semibold text-lg mb-2 block text-center"
+                        placeholder="State Taxes"
                       />
                     </div>
                 </div>
