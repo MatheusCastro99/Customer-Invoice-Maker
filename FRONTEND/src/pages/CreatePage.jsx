@@ -16,7 +16,7 @@ const CreatePage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const saveCustomer = async(e) => {
+    const saveCustomer = async(e) => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON SAVE BUTTON CLICKED
         e.preventDefault();
         if(companyName === "" || phoneNumber === ""){
             toast.error('Please fill out all input completely');

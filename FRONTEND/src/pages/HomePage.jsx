@@ -26,7 +26,7 @@ const HomePage = () => {
     getCustomers();
   }, []);
 
-  return (
+  return ( //ADD A SEARCHBAR BY GENERATE INVOICE SIDE
     <div>
       <div>
         <Link

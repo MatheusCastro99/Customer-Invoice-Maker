@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage";
 import CreatePage from "./pages/CreatePage";
 import EditPage from "./pages/EditPage";
 import InvoicePage from "./pages/InvoicePage";
+import PdfPage from "./pages/PdfPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="create" element={<CreatePage/>} />
           <Route path="edit/:id" element={<EditPage/>} />
           <Route path="invoice" element={<InvoicePage/>} />
+          <Route path="generatePdf" element={<PdfPage/>} />
         </Routes>
         </div>
         <ToastContainer />

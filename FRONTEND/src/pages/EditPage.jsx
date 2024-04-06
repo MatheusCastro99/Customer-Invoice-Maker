@@ -19,7 +19,7 @@ const EditPage = () => {
     zipAddress: "",
   });
 
-  const getCustomer = async () => {
+  const getCustomer = async () => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON UPDATE BUTTON CLICKED
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:3000/api/customer/${id}`);

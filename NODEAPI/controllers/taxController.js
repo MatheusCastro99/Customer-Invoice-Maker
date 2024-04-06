@@ -34,7 +34,7 @@ const defineTaxRate = asyncHandler((req, res) => {
 const calculateTax = asyncHandler((req, res) => {
   let taxRate = req.body.taxRate;
   let jobPrice = req.body.jobPrice;
-  console.log(req.body);
+  //console.log(req.body);
 
   if (jobPrice === "" || taxRate === "Please add tax rate manually") {
     jobPrice = 0;
@@ -43,7 +43,7 @@ const calculateTax = asyncHandler((req, res) => {
 
   const taxAmount = (taxRate / 100) * parseFloat(jobPrice);
   const finalPrice = parseFloat(jobPrice) + parseFloat(taxAmount.toFixed(2));
-  console.log(finalPrice, taxAmount);
+  //console.log(finalPrice, taxAmount);
   res.status(200).json(finalPrice);
 });
 

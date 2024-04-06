@@ -5,7 +5,7 @@ import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
 import CustomerInfo from "../components/CustomerInfo";
 
-//REFACTOR THROUGH CORS
+//SWICH DROPDOWN BY AUTOCOMPLETE SEARCHBAR
 
 const InvoicePage = () => {
     const [jobPrice, setJobPrice] = useState(Number)
@@ -15,7 +15,7 @@ const InvoicePage = () => {
     const [correspondingTax, setCorrespondingTax] = useState();
     const [finalPrice, setFinalPrice] = useState();
 
-    const requestInfo = async (e) => { //refactor
+    const requestInfo = async (e) => {
         try {
             if(e.target.value == "Select Company") {
               setTempCustomer([]);
@@ -154,7 +154,13 @@ const InvoicePage = () => {
                         placeholder="Total Price"
                       />
                     </div>
-                </div>        
+                </div>
+                <div>
+                    <Link to={`/generatePdf`}
+                  className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
+                    Generate PDF
+                  </Link>
+                </div>      
             </div>
         );
 }
