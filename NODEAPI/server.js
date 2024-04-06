@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const customerRoute = require("./routes/customerRoute");
+const taxRoute = require("./routes/taxRoute");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const cors = require("cors");
 
@@ -27,6 +28,9 @@ app.use(cors(corsAddress));
 
 //Route path, this is all server functionalities
 app.use("/api/customer", customerRoute);
+app.use("/api/taxinfo", taxRoute);
+app.use("/api/taxinfo/getTaxRate", taxRoute);
+app.use("/api/taxinfo/getTaxAmount", taxRoute);
 
 app.get("/", (req, res) => {
   res.send("NODE API");

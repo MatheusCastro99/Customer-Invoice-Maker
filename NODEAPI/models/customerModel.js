@@ -42,7 +42,6 @@ const customerSchema = mongoose.Schema(
       required: false,
     },
   },
-
   {
     timestamps: true,
   }
@@ -51,16 +50,3 @@ const customerSchema = mongoose.Schema(
 const CustomerModel = mongoose.model("Customer", customerSchema);
 
 module.exports = CustomerModel;
-
-/*
-MODIFIED:
-name = companyName
-age = phoneNumber
-occupation = contactName
-deceased = streetAddress (boolean > string)
-
-ADDED:
-cityAddress
-stateAddress
-zipAddress
-*/

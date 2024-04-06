@@ -13,7 +13,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.companyName || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="Company Name"
                 />
                 </div>
                 <div>
@@ -25,7 +24,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.phoneNumber || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="Phone Number"
                 />
                 </div>
                 <div>
@@ -37,7 +35,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.contactName || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="Contact Name"
                 />
                 </div>
                 <div>
@@ -48,8 +45,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.image || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="Image URL"
+                    className="w-full font-semibold text-xl mb-2 block text-center"
                 />
 
                 {customer.image && (
@@ -67,7 +63,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.streetAddress || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="Street Address"
                 />
                 </div>
                 <div>
@@ -79,7 +74,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.cityAddress || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="City"
                 />
                 </div>
                 <div>
@@ -91,7 +85,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.stateAddress || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="State Address"
                 />
                 </div>
                 <div>
@@ -103,7 +96,6 @@ const CustomerInfo = ({customer}) => {
                     type="text"
                     value={customer.zipAddress || ''}
                     className="font-semibold text-xl mb-2 block text-center"
-                    //placeholder="Zip Code"
                 />
                 </div>
             </div>
