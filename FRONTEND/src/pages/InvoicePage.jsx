@@ -39,7 +39,8 @@ const InvoicePage = () => {
     }
     const handleJobPrice = async(e) => {
       setJobPrice(e.target.value)
-      const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, {jobPrice:e.target.value, taxRate: correspondingTax})
+      const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, 
+        {jobPrice:e.target.value, taxRate: correspondingTax})
       console.log(getFinalPrice)
       setFinalPrice(getFinalPrice.data)
     }
@@ -47,6 +48,11 @@ const InvoicePage = () => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
       console.log(getTaxRate.data)
       setCorrespondingTax(getTaxRate.data);
+    }
+
+    const sendPdfInfo = async() => {
+      const pdfInfo = await axios.put(`http://localhost:3000/api/generatePdf`, 
+        {tempCustomer: tempCustomer, jobPrice: jobPrice, jobDescription: jobDescription, correspondingTax: correspondingTax, finalPrice: finalPrice});
     }
 
     const fetchData = async () => { //refactor
@@ -156,7 +162,9 @@ const InvoicePage = () => {
                     </div>
                 </div>
                 <div>
-                    <Link to={`/generatePdf`}
+                    <Link 
+                      to = {`/pdfPage`}
+                      onClick={sendPdfInfo}
                   className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
                     Generate PDF
                   </Link>

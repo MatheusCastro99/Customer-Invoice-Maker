@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 import { PDFViewer } from '@react-pdf/renderer';
 import MyDocument from "../components/PdfDocument";
 
@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
       height: "880px",
     },
   });
+
 
 const PdfPage = () =>{
     return (

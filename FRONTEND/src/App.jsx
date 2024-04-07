@@ -21,7 +21,7 @@ const App = () => {
           <Route path="create" element={<CreatePage/>} />
           <Route path="edit/:id" element={<EditPage/>} />
           <Route path="invoice" element={<InvoicePage/>} />
-          <Route path="generatePdf" element={<PdfPage/>} />
+          <Route path="pdfPage" element={<PdfPage/>} />
         </Routes>
         </div>
         <ToastContainer />
