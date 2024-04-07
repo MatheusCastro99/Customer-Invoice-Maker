@@ -2,8 +2,9 @@ import React from 'react';
 import { Page, Text, View, Document, Image, Line, Svg } from '@react-pdf/renderer';
 import {pageBox, headerBox, jobInfoBox, priceInfoBox, companyInfoBox} from "../pdfStyle";
 
-const MyDocument = () => (
-    <Document>
+const MyDocument = () => {
+    return (
+            <Document file = "output.pdf">
         <Page size="a4" style={pageBox.page}>
             <View style={headerBox.header}>
                 <Image style={headerBox.logo} src="https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_960_720.png"/>
@@ -57,6 +58,7 @@ const MyDocument = () => (
             </View>
         </Page>
     </Document>
-);
+    )
+};
 
 export default MyDocument
