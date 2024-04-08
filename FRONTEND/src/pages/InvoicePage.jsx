@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {Select} from "flowbite-react"
+import {Button, Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
 import CustomerInfo from "../components/CustomerInfo";
 
@@ -14,7 +14,6 @@ const InvoicePage = () => {
     const [tempCustomer, setTempCustomer] = useState([]);
     const [correspondingTax, setCorrespondingTax] = useState();
     const [finalPrice, setFinalPrice] = useState();
-    const [jobInfo, setJobInfo] = useState();
 
     const requestInfo = async (e) => {
         try {
@@ -43,7 +42,6 @@ const InvoicePage = () => {
       const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, 
         {jobPrice:e.target.value, taxRate: correspondingTax, jobDescription: jobDescription})
       setFinalPrice(getFinalPrice.data)
-      setJobInfo({subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: getFinalPrice.data})
     }
     const handleTax = async(state) => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
@@ -162,9 +160,9 @@ const InvoicePage = () => {
                     </div>
                 </div>
                 <div>
-                    <Link 
+                    <Link
                       to = {`/pdfPage`}
-                      state= {{customerInfo: tempCustomer, jobInfo: jobInfo}}
+                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice}}
                       className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
                       Generate PDF
                   </Link>

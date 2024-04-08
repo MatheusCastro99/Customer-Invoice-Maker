@@ -13,11 +13,15 @@ const styles = StyleSheet.create({
 const PdfPage = () => {
     const location = useLocation();
     const customerInfo = location.state.customerInfo;
-    const jobInfo = location.state.jobInfo;
+    const {subtotal} = location.state;
+    const {taxRate} = location.state;
+    const {jobDescription} = location.state;
+    const {finalPrice} = location.state;
+    
     return (
         <div >
             <PDFViewer style={styles.viewer}>
-                <MyDocument customerInfo={customerInfo} jobInfo={jobInfo} />
+                <MyDocument customerInfo={customerInfo} subtotal={subtotal} taxRate={taxRate} jobDescription={jobDescription} finalPrice={finalPrice} />
             </PDFViewer>
         </div>
     )

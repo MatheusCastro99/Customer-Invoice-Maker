@@ -23,8 +23,8 @@ const headerBox = StyleSheet.create({
     },
 
     logo: {
-        height: "50px",
-        width: "50px"
+        height: "70px",
+        width: "70px"
     },
 
     titleAddressBox: {
@@ -93,7 +93,8 @@ const jobInfoBox = StyleSheet.create({
     jobDescription: {
         fontSize: "15px",
         marginBottom: 3,
-        marginLeft: 25
+        marginLeft: 25,
+        alignSelf: "center",
     }
 })
 
