@@ -118,4 +118,20 @@ const priceInfoBox = StyleSheet.create({
     }
 })
 
-export {pageBox, headerBox, jobInfoBox, priceInfoBox, companyInfoBox}
+const footerBox = StyleSheet.create({
+    sentence: {
+        alignSelf: "center",
+        fontSize: "12px",
+        marginBottom: 3,
+        fontWeight: "extralight"
+    },
+
+    kenTech: {
+        fontWeight: "extrabold",
+        alignSelf: "center",
+        fontSize: "15px",
+        marginBottom: 5
+    }
+})
+
+export {pageBox, headerBox, jobInfoBox, priceInfoBox, companyInfoBox, footerBox}

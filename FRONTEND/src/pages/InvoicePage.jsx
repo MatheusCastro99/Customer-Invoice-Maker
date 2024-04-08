@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {Button, Select} from "flowbite-react"
+import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
 import CustomerInfo from "../components/CustomerInfo";
 
@@ -14,6 +14,7 @@ const InvoicePage = () => {
     const [tempCustomer, setTempCustomer] = useState([]);
     const [correspondingTax, setCorrespondingTax] = useState();
     const [finalPrice, setFinalPrice] = useState();
+    const [dateOfService, setDateOfService] = useState()
 
     const requestInfo = async (e) => {
         try {
@@ -46,6 +47,9 @@ const InvoicePage = () => {
     const handleTax = async(state) => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
       setCorrespondingTax(getTaxRate.data);
+    }
+    const handleDateOfService = (e) => {
+      setDateOfService(e.target.value)
     }
 
     /*const sendPdfInfo = async() => {  
@@ -94,6 +98,18 @@ const InvoicePage = () => {
                 </div>
                 <div className="mt-4">
                   <Divider className="bg-color-red">Job Information</Divider>
+                  <div className="rows mt-2">
+                      <label className="mb-2 block font-semibold row">
+                        Date of Service:
+                      </label>
+                      <input
+                        type="text"
+                        value={dateOfService || ''}
+                        onChange={handleDateOfService}
+                        className="w-80 font-semibold text-lg mb-2 ml-4 block row"
+                        placeholder="Enter Initial Date of service"
+                      />
+                    </div>
                   <div>
                       <label className="mb-2 block font-semibold">
                         Job Description
@@ -162,7 +178,7 @@ const InvoicePage = () => {
                 <div>
                     <Link
                       to = {`/pdfPage`}
-                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice}}
+                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService}}
                       className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
                       Generate PDF
                   </Link>

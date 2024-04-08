@@ -17,11 +17,18 @@ const PdfPage = () => {
     const {taxRate} = location.state;
     const {jobDescription} = location.state;
     const {finalPrice} = location.state;
-    
+    const {dateOfService} = location.state
+
     return (
         <div >
             <PDFViewer style={styles.viewer}>
-                <MyDocument customerInfo={customerInfo} subtotal={subtotal} taxRate={taxRate} jobDescription={jobDescription} finalPrice={finalPrice} />
+                <MyDocument 
+                    customerInfo={customerInfo}
+                    subtotal={subtotal}
+                    taxRate={taxRate}
+                    jobDescription={jobDescription}
+                    finalPrice={finalPrice}
+                    dateOfService={dateOfService}/>
             </PDFViewer>
         </div>
     )

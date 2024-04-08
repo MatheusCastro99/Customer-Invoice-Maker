@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, Image, Line, Svg } from '@react-pdf/renderer';
-import {pageBox, headerBox, jobInfoBox, priceInfoBox, companyInfoBox} from "../pdfStyle";
+import {pageBox, headerBox, jobInfoBox, priceInfoBox, companyInfoBox, footerBox} from "../pdfStyle";
 import Logo from "../assets/KenTechLogo.jpg"
 
 const MyDocument = (info) => {
@@ -9,6 +9,7 @@ const MyDocument = (info) => {
     const {taxRate} = info;
     const {jobDescription} = info;
     const {finalPrice} = info;
+    const {dateOfService} = info;
     console.log(customerInfo)
     return (
             <Document file = "FRONTEND\src\components\output.pdf">
@@ -21,7 +22,7 @@ const MyDocument = (info) => {
                     <Text style={headerBox.addressNumber}>908-838-5832</Text>
                 </View>
                 <View style={headerBox.dateInvoiceBox}>
-                    <Text style={headerBox.dateInvoice}>DATE</Text>
+                    <Text style={headerBox.dateInvoice}>{dateOfService}</Text>
                     <Text style={headerBox.dateInvoice}>Invoice #</Text>
                 </View>
             </View>
@@ -58,10 +59,15 @@ const MyDocument = (info) => {
             <View style={priceInfoBox.fields}>
                 <Text style={priceInfoBox.title}>Price:</Text>
                 <View>
-                    <Text style={priceInfoBox.text}>Subtotal: {subtotal}</Text>
-                    <Text style={priceInfoBox.text}>Tax Rate: {taxRate}% (TaxAmount)</Text>
-                    <Text style={priceInfoBox.text}>Total: {finalPrice}</Text>
+                    <Text style={priceInfoBox.text}>Subtotal: ${subtotal}</Text>
+                    <Text style={priceInfoBox.text}>Tax Rate ({taxRate}%): ${(subtotal*(taxRate/100)).toFixed(2)}</Text>
+                    <Text style={priceInfoBox.text}>Total: ${finalPrice}</Text>
                 </View>
+            </View>
+            <View>
+                <Text style={footerBox.sentence}>CHECK TO BE MADE NOMINAL TO:</Text>
+                <Text style={footerBox.kenTech}>KEN-TECH MAINTENANCE LLC</Text>
+                <Text style={footerBox.sentence}>THANK YOU FOR YOUR BUSINESS!</Text>
             </View>
         </Page>
         

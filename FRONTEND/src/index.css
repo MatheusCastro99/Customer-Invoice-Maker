@@ -12,3 +12,7 @@
   font-size: large;
   color:#757575;
 }
+
+.rows .row {
+  display: inline-block;
+}
