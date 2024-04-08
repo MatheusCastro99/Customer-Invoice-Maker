@@ -2,10 +2,14 @@ import React from 'react';
 import { Page, Text, View, Document, Image, Line, Svg } from '@react-pdf/renderer';
 import {pageBox, headerBox, jobInfoBox, priceInfoBox, companyInfoBox} from "../pdfStyle";
 
-const MyDocument = () => {
+const MyDocument = (info) => {
+    const customerInfo = info.customerInfo;
+    const jobInfo = info.jobInfo;
+    console.log(jobInfo)
+    console.log(customerInfo)
     return (
-            <Document file = "output.pdf">
-        <Page size="a4" style={pageBox.page}>
+            <Document file = "FRONTEND\src\components\output.pdf">
+                <Page size="a4" style={pageBox.page}>
             <View style={headerBox.header}>
                 <Image style={headerBox.logo} src="https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_960_720.png"/>
                 <View style={headerBox.titleAddressBox}>
@@ -32,7 +36,7 @@ const MyDocument = () => {
             <View style={companyInfoBox.info}>
                 <View style={companyInfoBox.textBox}>
                     <Text style={companyInfoBox.title}>Customer Info:</Text>
-                    <Text style={companyInfoBox.text}>Name: Company Name Here</Text>
+                    <Text style={companyInfoBox.text}>Name: {customerInfo.companyName}</Text>
                     <View>
                         <Text style={companyInfoBox.text}>Address: Street</Text>
                         <Text style={companyInfoBox.spacingCityState}>City</Text>
@@ -57,8 +61,11 @@ const MyDocument = () => {
                 </View>
             </View>
         </Page>
+        
     </Document>
     )
 };
 
 export default MyDocument
+
+/* */

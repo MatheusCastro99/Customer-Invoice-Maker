@@ -5,7 +5,7 @@ import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
 import CustomerInfo from "../components/CustomerInfo";
 
-//SWICH DROPDOWN BY AUTOCOMPLETE SEARCHBAR
+//SWICH DROPDOWN BY AUTOCOMPLETE SEARCHBAR / TRY AND REFACTOR BETTER
 
 const InvoicePage = () => {
     const [jobPrice, setJobPrice] = useState(Number)
@@ -14,6 +14,7 @@ const InvoicePage = () => {
     const [tempCustomer, setTempCustomer] = useState([]);
     const [correspondingTax, setCorrespondingTax] = useState();
     const [finalPrice, setFinalPrice] = useState();
+    const [jobInfo, setJobInfo] = useState();
 
     const requestInfo = async (e) => {
         try {
@@ -42,23 +43,23 @@ const InvoicePage = () => {
       const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, 
         {jobPrice:e.target.value, taxRate: correspondingTax, jobDescription: jobDescription})
       setFinalPrice(getFinalPrice.data)
+      setJobInfo({subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: getFinalPrice.data})
     }
     const handleTax = async(state) => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
       setCorrespondingTax(getTaxRate.data);
     }
 
-    const sendPdfInfo = async() => {  
+    /*const sendPdfInfo = async() => {  
       const pdfInfo = await axios.put(`http://localhost:3000/api/generatePdf`,
         {tempCustomer: tempCustomer, jobDescription: jobDescription, jobPrice: jobPrice, correspondingTax: correspondingTax, finalPrice: finalPrice});
         console.log(pdfInfo.data)
-    }
+    }*/
 
-    const fetchData = async () => { //refactor
+    const fetchData = async () => {
         try {
             const response = await axios.get("http://localhost:3000/api/customer");
             setCustomers(response.data)
-            console.log(customers)
         } catch (error) {
             
         }}
@@ -154,7 +155,7 @@ const InvoicePage = () => {
                       <input
                         readOnly = {true}
                         type="text"
-                        value={[finalPrice || '']} //retrieve from selected company and add the corresponding tax percentage
+                        value={[finalPrice || '']}
                         className="w-full font-semibold text-lg mb-2 block text-center"
                         placeholder="Total Price"
                       />
@@ -162,11 +163,11 @@ const InvoicePage = () => {
                 </div>
                 <div>
                     <Link 
-                      to = {`/pdfPage`}    
-                  className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
-                    Generate PDF
+                      to = {`/pdfPage`}
+                      state= {{customerInfo: tempCustomer, jobInfo: jobInfo}}
+                      className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
+                      Generate PDF
                   </Link>
-                  <Link onClick={sendPdfInfo}>TEST</Link>
                 </div>      
             </div>
         );
