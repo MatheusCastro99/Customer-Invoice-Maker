@@ -5,8 +5,6 @@ import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
 import CustomerInfo from "../components/CustomerInfo";
 
-//SWICH DROPDOWN BY AUTOCOMPLETE SEARCHBAR / TRY AND REFACTOR BETTER
-
 const InvoicePage = () => {
     const [jobPrice, setJobPrice] = useState(Number)
     const [jobDescription, setJobDescription] = useState();
@@ -69,7 +67,7 @@ const InvoicePage = () => {
     useEffect( () => {fetchData()},[]);
         return (
             <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
-                <h2 className="font-semibold text-2xl mb-4 block text-center">
+                <h2 id="home" className="font-semibold text-2xl mb-4 block text-center">
                     Generate Invoice
                 </h2>
                 <div className="max-w-md">

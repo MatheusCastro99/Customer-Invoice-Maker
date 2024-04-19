@@ -6,6 +6,13 @@
   body{
     @apply bg-slate-400;
   }
+  html{
+    scroll-behavior: smooth;
+  }
+}
+
+.background {
+  background-attachment: scroll;
 }
 
 .blockInfoStyle {
@@ -15,4 +22,38 @@
 
 .rows .row {
   display: inline-block;
+}
+
+.divBar {
+  width:100%;
+  position:relative;
+}
+
+.linkNav {
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  color:white;
+  font-size: 22px;
+  border-radius: 50%;
+}
+
+.logo{
+  display: inline-flex;
+  width: 60px;
+  border-radius: 50%;
+  margin-left: 3%;
+}
+.companyCard {
+  min-height: 700px;
+}
+
+.companyTable {
+  min-height: 900px;
+  padding-top: 5%;
+}
+
+.seeTable {
+  display: inline-block;
+  justify-self: end;
 }

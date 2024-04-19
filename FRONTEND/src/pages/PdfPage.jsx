@@ -22,7 +22,7 @@ const PdfPage = () => {
     return (
         <div >
             <PDFViewer style={styles.viewer}>
-                <MyDocument 
+                <MyDocument
                     customerInfo={customerInfo}
                     subtotal={subtotal}
                     taxRate={taxRate}

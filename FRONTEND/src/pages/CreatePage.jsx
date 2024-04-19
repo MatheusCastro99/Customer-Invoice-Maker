@@ -89,8 +89,8 @@ const CreatePage = () => {
                             <input type="text" value={zipAddress} onChange={(e) => setZipAddress(e.target.value)} className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Zip Code" />
                         </div>
                     </div>
-                    <div>
-                        { !isLoading &&  (<button className="block w-full mt-6 bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">Save</button>)}
+                    <div className="flex justify-center">
+                        { !isLoading &&  (<button className="block w-1/2 mt-6 bg-blue-700 text-white rounded-sm py-2 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">Save</button>)}
                         
                     </div>
                 </div>

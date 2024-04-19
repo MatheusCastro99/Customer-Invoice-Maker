@@ -57,7 +57,7 @@ const EditPage = () => {
 
   return (
     <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
-      <h2 className="font-semibold text-2xl mb-4 block text-center">
+      <h2 id="home" className="font-semibold text-2xl mb-4 block text-center">
         Edit a Customer
       </h2>
       {isLoading ? (
@@ -184,8 +184,8 @@ const EditPage = () => {
                   placeholder="Zip Code"
                 />
               </div>
-              <div>
-                <button className="block w-full mt-6 bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">
+              <div className="flex justify-center">
+                <button className="block w-1/2 mt-6 bg-blue-700 text-white rounded-sm py-2 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
                   Update
                 </button>
               </div>

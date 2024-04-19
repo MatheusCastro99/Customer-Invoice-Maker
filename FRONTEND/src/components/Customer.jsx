@@ -24,7 +24,7 @@ const Customer = ({ customer, getCustomers }) => {
   };
 
   return (
-    <div className="bg-white rounded shadow-lg overflow-hidden">
+    <div className="bg-white rounded shadow-lg overflow-auto">
       <img src={customer.image} className="w-full h-28 object-contain" />
       <div className="px-4 pt-2 pb-4">
         <h2 className="text font-semibold">{customer.companyName}</h2>
