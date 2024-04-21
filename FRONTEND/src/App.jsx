@@ -4,6 +4,7 @@ import CreatePage from "./pages/CreatePage";
 import EditPage from "./pages/EditPage";
 import InvoicePage from "./pages/InvoicePage";
 import PdfPage from "./pages/PdfPage";
+import ProfilePage from "./pages/ProfilePage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import companyLogo from "./assets/KenTechIcon.ico";
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="edit/:id" element={<EditPage/>} />
           <Route path="invoice" element={<InvoicePage/>} />
           <Route path="pdfPage" element={<PdfPage/>} />
+          <Route path="profilePage/:id" element={<ProfilePage/>} />
         </Routes>
         </div>
         <ToastContainer />

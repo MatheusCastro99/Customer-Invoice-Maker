@@ -4,6 +4,7 @@ import { StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import MyDocument from "../components/PdfDocument";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const styles = StyleSheet.create({
     viewer: {
@@ -24,6 +25,10 @@ const PdfPage = () => {
 
     const saveInvoice = async(e) => { 
       e.preventDefault()
+      if(customerInfo.companyName === undefined || dateOfService === undefined || finalPrice===undefined){
+        toast.error('Please fill out all input completely');
+        return;
+    }
       try {
         const pdfInfo = await axios.post(`http://localhost:3000/api/generateInvoice`, 
             {
@@ -42,7 +47,13 @@ const PdfPage = () => {
     return (
         <div >
             <div>
-                <button onClick={saveInvoice}>save</button>
+                <button onClick={saveInvoice} className="mt-3 mb-4 shadow-md bg-blue-700 text-white rounded-xl px-6 py-2 font-bold transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer hover:scale-110">Save Invoice</button>
+                <Link
+                  to="/invoice"
+                  className="inline-block mt-3 ml-5 shadow-md bg-gray-400 text-white rounded-xl px-6 py-2 font-bold transition ease-in-out duration-300 hover:bg-gray-300 hover:cursor-pointer hover:scale-110"
+                >
+                  Edit Invoice
+                </Link>
             </div>
             <PDFViewer style={styles.viewer}>
                 <MyDocument

@@ -12,7 +12,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true} 
                     type="text"
                     value={customer.companyName || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
                 <div>
@@ -23,7 +23,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.phoneNumber || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
                 <div>
@@ -34,7 +34,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.contactName || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
                 <div>
@@ -45,7 +45,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.image || ''}
-                    className="w-full font-semibold text-xl mb-2 block text-center"
+                    className="w-full text-lg mb-2 block text-center"
                 />
 
                 {customer.image && (
@@ -62,7 +62,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.streetAddress || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
                 <div>
@@ -73,7 +73,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.cityAddress || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
                 <div>
@@ -84,7 +84,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.stateAddress || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
                 <div>
@@ -95,7 +95,7 @@ const CustomerInfo = ({customer}) => {
                     readOnly={true}
                     type="text"
                     value={customer.zipAddress || ''}
-                    className="font-semibold text-xl mb-2 block text-center"
+                    className="text-lg mb-2 block text-center"
                 />
                 </div>
             </div>

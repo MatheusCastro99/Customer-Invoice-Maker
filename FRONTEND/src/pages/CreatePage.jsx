@@ -18,7 +18,7 @@ const CreatePage = () => {
 
     const saveCustomer = async(e) => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON SAVE BUTTON CLICKED
         e.preventDefault();
-        if(companyName === "" || phoneNumber === ""){
+        if(companyName === "" || phoneNumber === "" || contactName===""){
             toast.error('Please fill out all input completely');
             return;
         }
