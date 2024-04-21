@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const customerRoute = require("./routes/customerRoute");
 const taxRoute = require("./routes/taxRoute");
-const pdfRoute = require("./routes/pdfRoute");
+const invoiceRoute = require("./routes/invoiceRoute");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const cors = require("cors");
 
@@ -32,7 +32,7 @@ app.use("/api/customer", customerRoute);
 app.use("/api/taxinfo", taxRoute);
 app.use("/api/taxinfo/getTaxRate", taxRoute);
 app.use("/api/taxinfo/getTaxAmount", taxRoute);
-app.use("/api/generatePdf", pdfRoute);
+app.use("/api/generateInvoice", invoiceRoute);
 
 app.get("/", (req, res) => {
   res.send("NODE API");

@@ -6,12 +6,11 @@ import Customer from "../components/Customer";
 import TableCustomer from "../components/TableCustomer";
 import Divider from '@mui/material/Divider'
 
-//SWICH DROPDOWN BY AUTOCOMPLETE SEARCHBAR
-//IMPLEMENT COMPANY INFO DROPDOWN ON INVOICE PAGE
 //IMPLEMENT INVOICE COUNT (COUNT IN RESPECT TO KENTECH/NOT INDIVIDUAL)!!!
-//IMPLEMENT EMAIL TO WITH OPTION TO EMAIL INVOICE TO COMPANY
+//IMPLEMENT VERIFICATIONS/VALIDATIONS
 //IMPLEMENT COMPANY PAGE (SAVED JOBS, ALL SAVED INFO, EDIT OPTIONS)
 //IMPLEMENT SAVING JOBS(DATABASE TABLE)
+//IMPLEMENT EMAIL TO WITH OPTION TO EMAIL INVOICE TO COMPANY
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -82,9 +81,10 @@ const HomePage = () => {
                   })}
                 </>
               ) : (
-                <div className="mt-4 bg-gray-800 text-white font-serif p-4">
+                <div className="mt-4 bg-gray-600 text-white text-center font-serif p-4">
                   There is no customer
                 </div>
+                
               )}
             </>
           )}

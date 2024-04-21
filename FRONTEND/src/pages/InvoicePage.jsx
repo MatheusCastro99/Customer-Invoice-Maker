@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
+import Collapsible from 'react-collapsible';
 import CustomerInfo from "../components/CustomerInfo";
 
 const InvoicePage = () => {
@@ -50,12 +51,6 @@ const InvoicePage = () => {
       setDateOfService(e.target.value)
     }
 
-    /*const sendPdfInfo = async() => {  
-      const pdfInfo = await axios.put(`http://localhost:3000/api/generatePdf`,
-        {tempCustomer: tempCustomer, jobDescription: jobDescription, jobPrice: jobPrice, correspondingTax: correspondingTax, finalPrice: finalPrice});
-        console.log(pdfInfo.data)
-    }*/
-
     const fetchData = async () => {
         try {
             const response = await axios.get("http://localhost:3000/api/customer");
@@ -71,7 +66,6 @@ const InvoicePage = () => {
                     Generate Invoice
                 </h2>
                 <div className="max-w-md">
-                  <Divider className="mb-3">Company Information</Divider>
                     <div className="mt-3">
                         <Select onChange = {(e)=>(requestInfo(e))} id="customers" required>
                             <option>Select Company</option>
@@ -82,102 +76,107 @@ const InvoicePage = () => {
                             })}
                         </Select>
                     </div>
-                    <div>
-                      <CustomerInfo
-                        customer = {tempCustomer}/>
-                    </div>
-                </div>
-                <div className="w-full px-10 mt-5">
-                <Link
-                  to={`/edit/${tempCustomer._id}`}
-                  className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
-                  Update
-                </Link>
-                </div>
-                <div className="mt-4">
-                  <Divider className="bg-color-red">Job Information</Divider>
-                  <div className="rows mt-2">
-                      <label className="mb-2 block font-semibold row">
-                        Date of Service:
-                      </label>
-                      <input
-                        type="text"
-                        value={dateOfService || ''}
-                        onChange={handleDateOfService}
-                        className="w-80 font-semibold text-lg mb-2 ml-4 block row"
-                        placeholder="Enter Initial Date of service"
-                      />
-                    </div>
-                  <div>
-                      <label className="mb-2 block font-semibold">
-                        Job Description
-                      </label>
-                      <textarea
-                        type="text"
-                        value={jobDescription || ''}
-                        onChange={handleJobDescription}
-                        className="w-full font-semibold text-lg mb-2 block text-center"
-                        placeholder="Enter Job Description"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Subtotal
-                      </label>
-                      <input
-                        type="text"
-                        value={jobPrice || ''}
-                        onChange={handleJobPrice}
-                        className="w-full font-semibold text-lg mb-2 block text-center"
-                        placeholder="Enter Job Subtotal"
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-2 block font-semibold">
-                        Taxes
-                      </label>
-                      <div style ={{display:"flex", justifyContent: "space-evenly"}}>
-                      <label 
-                        readOnly = {true}
-                        type="text"
-                        className="inline-block font-semibold mb-2 block text-center"
-                        placeholder="State Taxes">
-                          {tempCustomer.stateAddress||"Select a State for this company"}
-                      </label>
-                      <label 
-                        readOnly = {true}
-                        type="text"
-                        className="inline-block font-semibold mb-2 block text-center"
-                        placeholder="State Taxes">
-                          {correspondingTax||0}%
-                      </label>
-                      <label 
-                        readOnly = {true}
-                        type="text"
-                        className="inline-block font-semibold mb-2 block text-center"
-                        placeholder="State Taxes">
-                          {"$"+((jobPrice*(correspondingTax/100))||0)}
-                        </label>
+                      <div className="mt-3">
+                        <Collapsible trigger={<Divider className="mb-3">Company Information ⤵ </Divider>}>
+                          <div>
+                            <CustomerInfo
+                              customer = {tempCustomer}/>
+                          </div>
+                          <div className="w-full flex justify-center px-10 mt-5">
+                            <Link
+                              to={`/edit/${tempCustomer._id}`}
+                              className="inline-block w-1/2 text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
+                              Update
+                            </Link>
+                          </div>
+                        </Collapsible>
                       </div>
+                </div>
+                <div className="mt-3 mb-3">
+                  <Collapsible trigger={<Divider className="bg-color-red">Job Information ⤵</Divider>} open={true}>
+                    <div className="rows mt-2">
+                        <label className="mb-2 block font-semibold row">
+                          Date of Service:
+                        </label>
+                        <input
+                          type="text"
+                          value={dateOfService || ''}
+                          onChange={handleDateOfService}
+                          className="w-80 font-semibold text-lg mb-2 ml-4 block row"
+                          placeholder="Enter Initial Date of service"
+                        />
+                      </div>
+                    <div>
+                        <label className="mb-2 block font-semibold">
+                          Job Description
+                        </label>
+                        <textarea
+                          type="text"
+                          value={jobDescription || ''}
+                          onChange={handleJobDescription}
+                          className="w-full font-semibold text-lg mb-2 block text-center"
+                          placeholder="Enter Job Description"
+                        />
                     </div>
                     <div>
-                      <label className="mb-2 block font-semibold">
-                        Total
-                      </label>
-                      <input
-                        readOnly = {true}
-                        type="text"
-                        value={[finalPrice || '']}
-                        className="w-full font-semibold text-lg mb-2 block text-center"
-                        placeholder="Total Price"
-                      />
+                        <label className="mb-2 block font-semibold">
+                          Subtotal
+                        </label>
+                        <input
+                          type="text"
+                          value={jobPrice || ''}
+                          onChange={handleJobPrice}
+                          className="w-full font-semibold text-lg mb-2 block text-center"
+                          placeholder="Enter Job Subtotal"
+                        />
                     </div>
+                    <div>
+                        <label className="mb-2 block font-semibold">
+                          Taxes
+                        </label>
+                        <div style ={{display:"flex", justifyContent: "space-evenly"}}>
+                        <label 
+                          readOnly = {true}
+                          type="text"
+                          className="inline-block font-semibold mb-2 block text-center"
+                          placeholder="State Taxes">
+                            {tempCustomer.stateAddress||"Select a State for this company"}
+                        </label>
+                        <label 
+                          readOnly = {true}
+                          type="text"
+                          className="inline-block font-semibold mb-2 block text-center"
+                          placeholder="State Taxes">
+                            {correspondingTax||0}%
+                        </label>
+                        <label 
+                          readOnly = {true}
+                          type="text"
+                          className="inline-block font-semibold mb-2 block text-center"
+                          placeholder="State Taxes">
+                            {"$"+(parseFloat((jobPrice*(correspondingTax/100)).toFixed(2))||0)}
+                          </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label className="mb-2 block font-semibold">
+                          Total
+                        </label>
+                        <input
+                          readOnly = {true}
+                          type="text"
+                          value={[finalPrice || '']}
+                          className="w-full font-semibold text-lg mb-2 block text-center"
+                          placeholder="Total Price"
+                        />
+                    </div>
+                  </Collapsible>
                 </div>
-                <div>
+                <div className="w-full flex justify-center">
                     <Link
                       to = {`/pdfPage`}
                       state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService}}
-                      className="inline-block w-full text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold hover:bg-blue-600 hover:cursor-pointer">
+                      className="inline-block w-1/2 text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
                       Generate PDF
                   </Link>
                 </div>      
