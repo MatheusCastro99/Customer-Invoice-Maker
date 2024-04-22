@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import Collapsible from 'react-collapsible';
 
-const TableInvoice = ({ invoices, getInvoices, customer }) => {
+const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
     const deleteInvoice = async (id) => {
       const result = await Swal.fire({
         title: "Do you want to delete this invoice?",
@@ -25,6 +25,7 @@ const TableInvoice = ({ invoices, getInvoices, customer }) => {
   
     return (
       <div className="mt-6 overflow-auto">
+        {console.log(invoices, customers)}
         <table className="table-auto mx-auto bg-white">
           <thead className="bg-gray-200">
             <tr>
@@ -37,29 +38,55 @@ const TableInvoice = ({ invoices, getInvoices, customer }) => {
           </thead>
           <tbody>
 
-            {invoices.map((invoice, index) => 
-               { if (invoice.companyName===customer.companyName) 
-                {
-                    return (
-                        <tr key={index}>
-                        <td className="p-4 border-b ">{invoice.companyName}</td>
-                        <td className="p-4 border-b ">{invoice.finalPrice}</td>
-                        <td className="p-4 border-b ">{invoice.dateOfService}</td>
+            {invoices.map((invoices, index) => 
+               {
+                if(Object.keys(customers).length != 9) {
+                  return (
+                    <tr key={index}>
+                        <td className="p-4 border-b ">{invoices.companyName}</td>
+                        <td className="p-4 border-b ">{invoices.finalPrice}</td>
+                        <td className="p-4 border-b ">{invoices.dateOfService}</td>
                         <td className="p-4 border-b ">
                           <div className="flex gap-2">
-                            <button onClick={() => deleteInvoice(invoice._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
+                            <button onClick={() => deleteInvoice(invoices._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
                             <Link
                                 to = {`/pdfPage`}
-                                state= {{customerInfo: customer, subtotal: invoice.subtotal, taxRate: invoice.taxRate, jobDescription: invoice.jobDescription, finalPrice: invoice.finalPrice, dateOfService: invoice.dateOfService}}
+                                state= {{customerInfo: customers, subtotal: invoices.subtotal, taxRate: invoices.taxRate, jobDescription: invoices.jobDescription, finalPrice: invoices.finalPrice, dateOfService: invoices.dateOfService}}
                                 className="inline-block text-center text-sm bg-blue-500 font-semibold text-white rounded px-2 py-1 transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer">
                                 PDF
                             </Link>
                           </div>
                         </td>
                         <td className="p-4 border-b "><Collapsible trigger={"Show"}>
-                            <p>Job Breakdown: {invoice.jobDescription}</p>
-                            <p>Subtotal: ${invoice.subtotal}</p>
-                            <p>Tax: ${(invoice.subtotal*(invoice.taxRate/100)).toFixed(2)}</p>
+                            <p>Job Breakdown: {invoices.jobDescription}</p>
+                            <p>Subtotal: ${invoices.subtotal}</p>
+                            <p>Tax: ${(invoices.subtotal*(invoices.taxRate/100)).toFixed(2)}</p>
+                            
+                        </Collapsible></td>
+                      </tr>
+                  )
+                }
+                else if ((invoices.companyName===customers.companyName)) {
+                    return (
+                        <tr key={index}>
+                        <td className="p-4 border-b ">{invoices.companyName}</td>
+                        <td className="p-4 border-b ">{invoices.finalPrice}</td>
+                        <td className="p-4 border-b ">{invoices.dateOfService}</td>
+                        <td className="p-4 border-b ">
+                          <div className="flex gap-2">
+                            <button onClick={() => deleteInvoice(invoices._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
+                            <Link
+                                to = {`/pdfPage`}
+                                state= {{customerInfo: customers, subtotal: invoices.subtotal, taxRate: invoices.taxRate, jobDescription: invoices.jobDescription, finalPrice: invoices.finalPrice, dateOfService: invoices.dateOfService}}
+                                className="inline-block text-center text-sm bg-blue-500 font-semibold text-white rounded px-2 py-1 transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer">
+                                PDF
+                            </Link>
+                          </div>
+                        </td>
+                        <td className="p-4 border-b "><Collapsible trigger={"Show"}>
+                            <p>Job Breakdown: {invoices.jobDescription}</p>
+                            <p>Subtotal: ${invoices.subtotal}</p>
+                            <p>Tax: ${(invoices.subtotal*(invoices.taxRate/100)).toFixed(2)}</p>
                             
                         </Collapsible></td>
                       </tr>

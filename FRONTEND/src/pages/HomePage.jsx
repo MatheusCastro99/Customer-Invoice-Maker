@@ -3,17 +3,20 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Customer from "../components/Customer";
-import TableCustomer from "../components/TableCustomer";
-import Divider from '@mui/material/Divider'
+import Divider from '@mui/material/Divider';
+import Collapsible from 'react-collapsible';
+import TableInvoice from "../components/TableInvoice";
 
 //IMPLEMENT INVOICE COUNT (COUNT IN RESPECT TO KENTECH/NOT INDIVIDUAL || OPEN MANUAL COUNT)!!!
-//IMPLEMENT VERIFICATIONS/VALIDATIONS
-//COMPANY PAGE (EDIT OPTIONS)
 //IMPLEMENT EMAIL ON CUSTOMER MODEL (AND OTHER PAGES)
+//IMPLEMENT VERIFICATIONS/VALIDATIONS
+//HOME PAGE CHECKBOX(Deleted?) ON INVOICES TABLE (IN CASE OF DELETED COMPANY)
+//SOLVE PDF GENERATION AFTER DELETING COMPANY
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [customers, setCustomers] = useState([]);
+  const [invoices, setInvoices] = useState([]);
 
   const getCustomers = async () => {
     try {
@@ -28,8 +31,22 @@ const HomePage = () => {
     }
   };
 
+  const getInvoices = async() => {
+      try {
+          setIsLoading(true);
+          const response = await axios.get("http://localhost:3000/api/generateInvoice");
+          console.log(response.data);
+          setInvoices(response.data);
+          setIsLoading(false);
+        } catch (error) {
+          toast.error(error.message);
+          setIsLoading(false);
+        }
+  }
+
   useEffect(() => {
     getCustomers();
+    getInvoices();
   }, []);
 
   return ( //ADD A SEARCHBAR BY GENERATE INVOICE SIDE
@@ -53,7 +70,7 @@ const HomePage = () => {
           <a
             href="#companyTable"
             className="inline-flex mt-4 ml-5 mb-4 shadow-md bg-gray-400 text-white rounded px-4 py-2 font-bold transition ease-in-out duration-300 hover:bg-gray-300 hover:cursor-pointer hover:scale-110">
-              See Table
+              See All Invoices
           </a>
         </div>
       </div>
@@ -82,22 +99,27 @@ const HomePage = () => {
               ) : (
                 <div className="mt-4 bg-gray-600 text-white text-center font-serif p-4">
                   There is no customer
-                </div>
-                
+                </div>  
               )}
             </>
           )}
         </div>
       </div>
       <div id="companyTable" className="companyTable">
-      <Divider 
-        sx={{fontSize:20, fontWeight:"bold", color:"white", "&::before, &::after": {borderColor: "gray", borderBottomWidth: 3,},}}>
-        Company Table
-      </Divider>
-        <TableCustomer 
-          customers={customers} 
-          getCustomers={getCustomers}
-        />
+        <Collapsible 
+          trigger={
+            <Divider 
+                sx={{fontSize:20, fontWeight:"bold", color:"white", "&::before, &::after": {borderColor: "gray", borderBottomWidth: 3,},}}>
+                All Invoices ⤵
+            </Divider>
+          }>
+          <TableInvoice 
+            invoices={invoices} 
+            getInvoices={getInvoices}
+            customers={customers}
+            getCustomers={getCustomers}
+          />
+        </Collapsible>
       </div>
     </div>
   );

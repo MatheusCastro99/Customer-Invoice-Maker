@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
