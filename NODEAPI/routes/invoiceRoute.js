@@ -1,13 +1,13 @@
 const express = require("express");
 const {
-  retrieveInvoiceInfo,
+  getInvoice,
   delInvoice,
   postInvoice,
 } = require("../controllers/invoiceController");
 
 const invoiceRouter = express.Router();
 
-invoiceRouter.get("/", retrieveInvoiceInfo);
+invoiceRouter.get("/", getInvoice);
 
 invoiceRouter.delete("/:id", delInvoice);
 

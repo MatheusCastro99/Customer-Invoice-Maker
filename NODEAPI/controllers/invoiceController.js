@@ -3,20 +3,14 @@ const InvoiceModel = require("../models/invoiceModel");
 
 const invoiceNumber = 500;
 
-const retrieveInvoiceInfo = asyncHandler((req, res) => {
-  const companyInfo = req.body.tempCustomer;
-  const jobInfo = [
-    //SEPARATE INDIVIDUALLY
-    req.body.jobDescription,
-    req.body.jobPrice,
-    req.body.correspondingTax,
-    req.body.finalPrice,
-  ];
-  invoiceNumber += 0.25;
-
-  console.log(invoiceNumber);
-
-  res.status(200).json(invoiceNumber);
+const getInvoice = asyncHandler(async (req, res) => {
+  try {
+    const invoice = await InvoiceModel.find({});
+    res.status(200).json(invoice);
+  } catch (error) {
+    res.status(500);
+    throw new Error("Something broke, please shed a tear for your dev friend");
+  }
 });
 
 const postInvoice = asyncHandler(async (req, res) => {
@@ -46,4 +40,4 @@ const delInvoice = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { retrieveInvoiceInfo, postInvoice, delInvoice };
+module.exports = { getInvoice, postInvoice, delInvoice };

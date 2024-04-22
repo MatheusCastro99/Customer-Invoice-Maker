@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import CustomerInfo from "../components/CustomerInfo";
+import TableInvoice from "../components/TableInvoice";
 import Divider from '@mui/material/Divider'
 import Collapsible from 'react-collapsible';
 
@@ -20,6 +21,20 @@ const ProfilePage = () => {
         stateAddress: "",
         zipAddress: "",
     });
+    const [invoices, setInvoices] = useState([]);
+
+    const getInvoices = async() => {
+        try {
+            setIsLoading(true);
+            const response = await axios.get("http://localhost:3000/api/generateInvoice");
+            console.log(response.data);
+            setInvoices(response.data);
+            setIsLoading(false);
+          } catch (error) {
+            toast.error(error.message);
+            setIsLoading(false);
+          }
+    }
 
     const getCustomer = async () => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON UPDATE BUTTON CLICKED
         setIsLoading(true);
@@ -44,6 +59,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         getCustomer();
+        getInvoices();
       }, []);
 
 
@@ -93,10 +109,10 @@ const ProfilePage = () => {
                             />
                         </div>
                         <div>
-                            <Collapsible trigger={<Divider className="mb-3">Address ⤵ </Divider>}>
+                            <Collapsible className="mb-2 block font-semibold" trigger={"Address ⤵"}>
                                 <div>
                                     <label className="mb-2 mt-2 block font-semibold">
-                                        Street Address
+                                        Street
                                     </label>
                                     <input
                                         readOnly={true}
@@ -143,7 +159,14 @@ const ProfilePage = () => {
                     </div>
                 </div>
             </div>
-            <div>INVOICE TABLE GO HERE</div>
+            <Divider className="mb-3">Invoices </Divider>
+            <div>
+                <TableInvoice
+                    invoices={invoices}
+                    getInvoices={getInvoices}
+                    customer={customer}
+                />
+            </div>
         </div>
     )
     
