@@ -14,6 +14,7 @@ const ProfilePage = () => {
         companyName: "",
         phoneNumber: "",
         contactName: "",
+        companyEmail: "",
         image: "",
         streetAddress: "",
         cityAddress: "",
@@ -43,6 +44,7 @@ const ProfilePage = () => {
             companyName: response.data.companyName,
             phoneNumber: response.data.phoneNumber,
             contactName: response.data.contactName,
+            companyEmail: response.data.companyEmail,
             image: response.data.image,
             streetAddress: response.data.streetAddress,
             cityAddress: response.data.cityAddress,
@@ -64,7 +66,7 @@ const ProfilePage = () => {
 
 
     return(
-        <div className="max-w-xl bg-white shadow-lg mx-auto p-5 rounded mt-6">
+        <div className="max-w-2xl bg-white shadow-lg mx-auto p-5 rounded mt-6">
             <div>
                 <CustomerProfile customer={customer}/>
             </div>

@@ -40,6 +40,17 @@ const CustomerInfo = ({customer}) => {
                     className="text-lg mb-2 block text-center"
                 />
                 </div>
+                <div>
+                <label className="mb-2 block font-semibold">
+                    Email
+                </label>
+                <input
+                    readOnly={true}
+                    type="text"
+                    value={customer.companyEmail || ''}
+                    className="text-lg mb-2 block text-center"
+                />
+                </div>
                 <Collapsible trigger={<Chip label="Address ⤵" size="small" />}>
                 <div>
                 <label className="mb-2 mt-2 block font-semibold">

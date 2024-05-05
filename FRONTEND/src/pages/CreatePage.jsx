@@ -11,6 +11,7 @@ const CreatePage = () => {
     const [companyName, setCompanyName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [contactName, setContactName] = useState("");
+    const [companyEmail, setCompanyEmail] = useState("");
     const [streetAddress, setStreetAddress] = useState("");
     const [cityAddress, setCityAddress] = useState("");
     const [stateAddress, setStateAddress] = useState("");
@@ -35,7 +36,8 @@ const CreatePage = () => {
             setIsLoading(true);
             const response = await axios.post("http://localhost:3000/api/customer", 
             {
-                companyName: companyName, phoneNumber: phoneNumber, contactName: contactName, image: image, streetAddress:streetAddress, cityAddress: cityAddress, stateAddress: stateAddress, zipAddress: zipAddress
+                companyName: companyName, phoneNumber: phoneNumber, contactName: contactName, companyEmail: companyEmail, image: image,
+                streetAddress:streetAddress, cityAddress: cityAddress, stateAddress: stateAddress, zipAddress: zipAddress
             });
             toast.success(`Save ${response.data.companyName} Successfully`);
             setIsLoading(false);
@@ -68,6 +70,10 @@ const CreatePage = () => {
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Contact Name</label>
                                 <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Contact Name" />
+                            </div>
+                            <div>
+                                <label className="text-gray-600 mb-2 block font-semibold">Email</label>
+                                <input type="text" value={companyEmail} onChange={(e) => setCompanyEmail(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Email" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Image URL</label>

@@ -14,7 +14,8 @@ const InvoicePage = () => {
     const [tempCustomer, setTempCustomer] = useState([]);
     const [correspondingTax, setCorrespondingTax] = useState();
     const [finalPrice, setFinalPrice] = useState();
-    const [dateOfService, setDateOfService] = useState()
+    const [dateOfService, setDateOfService] = useState();
+    const [invoiceNumber, setInvoiceNumber]= useState();
 
     const requestInfo = async (e) => {
         try {
@@ -50,6 +51,9 @@ const InvoicePage = () => {
     }
     const handleDateOfService = (e) => {
       setDateOfService(e.target.value)
+    }
+    const handleInvoiceNumber = (e) => {
+      setInvoiceNumber(e.target.value)
     }
 
     const fetchData = async () => {
@@ -101,8 +105,18 @@ const InvoicePage = () => {
                           type="text"
                           value={dateOfService || ''}
                           onChange={handleDateOfService}
-                          className="w-80 font-semibold text-lg mb-2 ml-4 block row"
+                          className="w-1/2 font-semibold text-lg mb-2 ml-4 block row"
                           placeholder="Enter Initial Date of service"
+                        />
+                        <label className="mb-2 block font-semibold row">
+                          Invoice Number:
+                        </label>
+                        <input
+                          type="text"
+                          value={invoiceNumber || ''}
+                          onChange={handleInvoiceNumber}
+                          className="w-1/2 font-semibold text-lg mb-2 ml-4 block row"
+                          placeholder="Enter Invoice Number"
                         />
                       </div>
                     <div>
@@ -174,7 +188,7 @@ const InvoicePage = () => {
                 <div className="w-full flex justify-center">
                     <Link
                       to = {`/pdfPage`}
-                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService}}
+                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService, invoiceNumber: invoiceNumber}}
                       className="inline-block w-1/2 text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
                       Generate PDF
                   </Link>

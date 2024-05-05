@@ -12,6 +12,7 @@ const EditPage = () => {
     companyName: "",
     phoneNumber: "",
     contactName: "",
+    companyEmail: "",
     image: "",
     streetAddress: "",
     cityAddress: "",
@@ -27,6 +28,7 @@ const EditPage = () => {
         companyName: response.data.companyName,
         phoneNumber: response.data.phoneNumber,
         contactName: response.data.contactName,
+        companyEmail: response.data.companyEmail,
         image: response.data.image,
         streetAddress: response.data.streetAddress,
         cityAddress: response.data.cityAddress,
@@ -106,6 +108,20 @@ const EditPage = () => {
                   }
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Contact Name"
+                />
+              </div>
+              <div>
+                <label className="text-gray-600 mb-2 block font-semibold">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  value={customer.companyEmail}
+                  onChange={(e) =>
+                    setCustomer({ ...customer, companyEmail: e.target.value })
+                  }
+                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
+                  placeholder="Email"
                 />
               </div>
               <div>

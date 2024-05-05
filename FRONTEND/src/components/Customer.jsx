@@ -30,6 +30,7 @@ const Customer = ({ customer, getCustomers }) => {
         <h2 className="text font-semibold">{customer.companyName}</h2>
         <div className="text-sm">Phone Number: {customer.phoneNumber}</div>
         <div className="text-sm">Contact Name: {customer.contactName}</div>
+        <div className="text-xs">Email: {customer.companyEmail}</div>
 
         <div className="mt-2 flex gap-4">
           <Link

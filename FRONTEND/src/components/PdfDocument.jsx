@@ -10,6 +10,7 @@ const MyDocument = (info) => {
     const {jobDescription} = info;
     const {finalPrice} = info;
     const {dateOfService} = info;
+    const {invoiceNumber} = info;
     console.log(customerInfo)
     return (
             <Document file = "FRONTEND\src\components\output.pdf">
@@ -23,7 +24,7 @@ const MyDocument = (info) => {
                 </View>
                 <View style={headerBox.dateInvoiceBox}>
                     <Text style={headerBox.dateInvoice}>{dateOfService}</Text>
-                    <Text style={headerBox.dateInvoice}>Invoice #</Text>
+                    <Text style={headerBox.dateInvoice}>Invoice #{invoiceNumber}</Text>
                 </View>
             </View>
 
@@ -47,6 +48,7 @@ const MyDocument = (info) => {
                         <Text style={companyInfoBox.spacingCityState}>{customerInfo.stateAddress} - {customerInfo.zipAddress}</Text>
                     </View>
                     <Text style={companyInfoBox.text}>Phone: {customerInfo.phoneNumber}</Text>
+                    <Text style={companyInfoBox.text}>Email: {customerInfo.companyEmail}</Text>
                 </View>
             </View>
 

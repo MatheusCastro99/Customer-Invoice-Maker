@@ -21,6 +21,7 @@ const PdfPage = () => {
     const {jobDescription} = location.state;
     const {finalPrice} = location.state;
     const {dateOfService} = location.state;
+    const {invoiceNumber} = location.state;
     
 
     const saveInvoice = async(e) => { 
@@ -38,6 +39,7 @@ const PdfPage = () => {
                 jobDescription:jobDescription,
                 finalPrice:finalPrice,
                 dateOfService:dateOfService,
+                invoiceNumber:invoiceNumber,
             });
 
         toast.success(`Saved ${customerInfo.companyName}'s Job Successfully`); 
@@ -62,7 +64,8 @@ const PdfPage = () => {
                     taxRate={taxRate}
                     jobDescription={jobDescription}
                     finalPrice={finalPrice}
-                    dateOfService={dateOfService}/>
+                    dateOfService={dateOfService}
+                    invoiceNumber={invoiceNumber}/>
             </PDFViewer>
         </div>
     )

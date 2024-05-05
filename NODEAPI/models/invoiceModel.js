@@ -12,6 +12,11 @@ const invoiceSchema = mongoose.Schema(
       required: [true, "Please enter Date"],
     },
 
+    invoiceNumber: {
+      type: String,
+      required: false,
+    },
+
     finalPrice: {
       type: Number,
       required: [true, "Please enter Final Price"],

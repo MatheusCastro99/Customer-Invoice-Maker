@@ -12,6 +12,11 @@ const customerSchema = mongoose.Schema(
       required: [true, "please enter the phone number"],
     },
 
+    companyEmail: {
+      type: String,
+      required: false,
+    },
+
     contactName: {
       type: String,
       required: [true, "please enter the contact name"],

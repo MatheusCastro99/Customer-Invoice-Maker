@@ -57,6 +57,17 @@ const CustomerProfile = ({ customer }) => {
                             />
                         </div>
                         <div>
+                            <label className="mb-2 block font-semibold">
+                                Email
+                            </label>
+                            <input
+                                readOnly={true}
+                                type="text"
+                                value={customer.companyEmail || ''}
+                                className="text-lg mb-2 block text-center w-full"
+                            />
+                        </div>
+                        <div>
                             <Collapsible className="mb-2 block font-semibold" trigger={"Address ⤵"}>
                                 <div>
                                     <label className="mb-2 mt-2 block font-semibold">
