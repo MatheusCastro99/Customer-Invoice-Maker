@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
+import { Chip } from "@mui/material";
 import Collapsible from 'react-collapsible';
 import CustomerInfo from "../components/CustomerInfo";
 
@@ -77,7 +78,6 @@ const InvoicePage = () => {
                         </Select>
                     </div>
                       <div className="mt-3">
-                        <Collapsible trigger={<Divider className="mb-3">Company Information ⤵ </Divider>}>
                           <div>
                             <CustomerInfo
                               customer = {tempCustomer}/>
@@ -89,11 +89,10 @@ const InvoicePage = () => {
                               Update
                             </Link>
                           </div>
-                        </Collapsible>
                       </div>
                 </div>
-                <div className="mt-3 mb-3">
-                  <Collapsible trigger={<Divider className="bg-color-red">Job Information ⤵</Divider>} open={true}>
+                <div className="mt-7 mb-3">
+                  <Collapsible trigger={<Divider variant="middle" className="bg-color-red"><Chip label="Job Information ⤵" size="small" /></Divider>} open={true}>
                     <div className="rows mt-2">
                         <label className="mb-2 block font-semibold row">
                           Date of Service:
