@@ -7,6 +7,36 @@ const invoiceSchema = mongoose.Schema(
       required: [true, "Please enter Customer Name"],
     },
 
+    phoneNumber: {
+      type: Number,
+      required: [true, "please enter the phone number"],
+    },
+
+    companyEmail: {
+      type: String,
+      required: false,
+    },
+
+    streetAddress: {
+      type: String,
+      required: false,
+    },
+
+    cityAddress: {
+      type: String,
+      required: false,
+    },
+
+    stateAddress: {
+      type: String,
+      required: false,
+    },
+
+    zipAddress: {
+      type: Number,
+      required: false,
+    },
+
     dateOfService: {
       type: String,
       required: [true, "Please enter Date"],

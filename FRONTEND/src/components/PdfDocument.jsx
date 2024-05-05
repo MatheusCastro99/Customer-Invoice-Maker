@@ -5,6 +5,13 @@ import Logo from "../assets/KenTechLogo.jpg"
 
 const MyDocument = (info) => {
     const customerInfo = info.customerInfo;
+    const {companyName} = info;
+    const {companyEmail} = info;
+    const {phoneNumber} = info;
+    const {streetAddress} = info;
+    const {cityAddress} = info;
+    const {stateAddress} = info;
+    const {zipAddress} = info;
     const {subtotal} = info;
     const {taxRate} = info;
     const {jobDescription} = info;
@@ -12,6 +19,7 @@ const MyDocument = (info) => {
     const {dateOfService} = info;
     const {invoiceNumber} = info;
     console.log(customerInfo)
+
     return (
             <Document file = "FRONTEND\src\components\output.pdf">
                 <Page size="a4" style={pageBox.page}>
@@ -41,14 +49,14 @@ const MyDocument = (info) => {
             <View style={companyInfoBox.info}>
                 <View style={companyInfoBox.textBox}>
                     <Text style={companyInfoBox.title}>Customer Info:</Text>
-                    <Text style={companyInfoBox.text}>Name: {customerInfo.companyName}</Text>
+                    <Text style={companyInfoBox.text}>Name: {customerInfo?.companyName||companyName}</Text>
                     <View>
-                        <Text style={companyInfoBox.text}>Address: {customerInfo.streetAddress}</Text>
-                        <Text style={companyInfoBox.spacingCityState}>{customerInfo.cityAddress}</Text>
-                        <Text style={companyInfoBox.spacingCityState}>{customerInfo.stateAddress} - {customerInfo.zipAddress}</Text>
+                        <Text style={companyInfoBox.text}>Address: {customerInfo?.streetAddress||streetAddress}</Text>
+                        <Text style={companyInfoBox.spacingCityState}>{customerInfo?.cityAddress||cityAddress}</Text>
+                        <Text style={companyInfoBox.spacingCityState}>{customerInfo?.stateAddress||stateAddress} - {customerInfo?.zipAddress||zipAddress}</Text>
                     </View>
-                    <Text style={companyInfoBox.text}>Phone: {customerInfo.phoneNumber}</Text>
-                    <Text style={companyInfoBox.text}>Email: {customerInfo.companyEmail}</Text>
+                    <Text style={companyInfoBox.text}>Phone: {customerInfo?.phoneNumber||phoneNumber}</Text>
+                    <Text style={companyInfoBox.text}>Email: {customerInfo?.companyEmail||companyEmail}</Text>
                 </View>
             </View>
 

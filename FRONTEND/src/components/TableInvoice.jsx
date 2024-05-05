@@ -1,8 +1,10 @@
+import { Switch, FormControlLabel } from "@mui/material";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Collapsible from 'react-collapsible';
+import { useState } from "react";
 
 const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
     const deleteInvoice = async (id) => {
@@ -22,9 +24,17 @@ const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
         }
       }
     };
+
+    const [delCheckBox, setDelCheckBox] = useState(Boolean);
+    const handleCheckBox = () => {
+      if (delCheckBox) setDelCheckBox(false)
+        else setDelCheckBox(true)
+      console.log(delCheckBox)
+    }
   
     return (
       <div className="mt-6 overflow-auto">
+        <div className="ml-2"><FormControlLabel control={<Switch defaultChecked onChange={handleCheckBox}/>} label="Deleted Companies" /></div>
         {console.log(invoices, customers)}
         <table className="table-auto mx-auto bg-white">
           <thead className="bg-gray-200">
@@ -41,9 +51,13 @@ const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
 
             {invoices.map((invoices, index) => 
                {
-                if(Object.keys(customers).length != 10) {
+                if(customers.companyName==undefined) {
+                  if (!delCheckBox) {}
+
                   return (
+                    
                     <tr key={index}>
+                      
                         <td className="p-4 border-b ">{invoices.companyName}</td>
                         <td className="p-4 border-b ">{invoices.finalPrice}</td>
                         <td className="p-4 border-b ">{invoices.dateOfService}</td>
@@ -53,7 +67,9 @@ const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
                             <button onClick={() => deleteInvoice(invoices._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
                             <Link
                                 to = {`/pdfPage`}
-                                state= {{customerInfo: customers, subtotal: invoices.subtotal, taxRate: invoices.taxRate, jobDescription: invoices.jobDescription, finalPrice: invoices.finalPrice, dateOfService: invoices.dateOfService, invoiceNumber: invoices.invoiceNumber}}
+                                state= {{companyName: invoices.companyName, phoneNumber: invoices.phoneNumber, companyEmail: invoices.companyEmail, streetAddress: invoices.streetAddress, cityAddress: invoices.streetAddress, stateAddress: invoices.stateAddress, zipAddress: invoices.zipAddress,
+                                          subtotal: invoices.subtotal, taxRate: invoices.taxRate, jobDescription: invoices.jobDescription, finalPrice: invoices.finalPrice, 
+                                          dateOfService: invoices.dateOfService, invoiceNumber: invoices.invoiceNumber}}
                                 className="inline-block text-center text-sm bg-blue-500 font-semibold text-white rounded px-2 py-1 transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer">
                                 PDF
                             </Link>
