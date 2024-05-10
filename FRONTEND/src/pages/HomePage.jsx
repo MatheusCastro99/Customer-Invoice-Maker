@@ -114,7 +114,6 @@ const HomePage = () => {
             invoices={invoices} 
             getInvoices={getInvoices}
             customers={customers}
-            getCustomers={getCustomers}
           />
         </Collapsible>
       </div>
