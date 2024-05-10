@@ -7,7 +7,11 @@ import Collapsible from 'react-collapsible';
 import { useState } from "react";
 
 const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
-    const deleteInvoice = async (id) => {
+    
+  const [delCheckBox, setDelCheckBox] = useState(Boolean);
+  let invoicesArr = [];
+
+  const deleteInvoice = async (id) => {
       const result = await Swal.fire({
         title: "Do you want to delete this invoice?",
         showCancelButton: true,
@@ -25,17 +29,39 @@ const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
       }
     };
 
-    const [delCheckBox, setDelCheckBox] = useState(Boolean);
     const handleCheckBox = () => {
-      if (delCheckBox) setDelCheckBox(false)
-        else setDelCheckBox(true)
+      loadInvoicesArr();
+      if (delCheckBox) {
+        setDelCheckBox(false);
+        for(let invoiceIndex=0; invoiceIndex<invoicesArr.length; invoiceIndex++) {
+          for(let customerIndex=0; customerIndex<customers.length; customerIndex++) {
+            if(customers[customerIndex].companyName == invoicesArr[invoiceIndex].companyName) {
+              console.log(invoicesArr[invoiceIndex])
+              invoicesArr.splice(invoiceIndex, 1)
+              invoiceIndex=0
+            }
+          }
+          console.log(invoicesArr)
+        }
+      }
+
+        else {
+          setDelCheckBox(true);
+        }
       console.log(delCheckBox)
+      
+    }
+    const loadInvoicesArr = () => {
+      invoices.map((currInvoice) => {
+        invoicesArr.push(currInvoice)
+        console.log(invoicesArr)
+      })
     }
   
     return (
       <div className="mt-6 overflow-auto">
+        
         <div className="ml-2"><FormControlLabel control={<Switch defaultChecked onChange={handleCheckBox}/>} label="Deleted Companies" /></div>
-        {console.log(invoices, customers)}
         <table className="table-auto mx-auto bg-white">
           <thead className="bg-gray-200">
             <tr>
@@ -49,63 +75,62 @@ const TableInvoice = ({ invoices, getInvoices, customers, getCustomers }) => {
           </thead>
           <tbody>
 
-            {invoices.map((invoices, index) => 
+            {invoices.map((currInvoice, index) => 
                {
                 if(customers.companyName==undefined) {
-                  if (!delCheckBox) {}
-
+                  
                   return (
                     
                     <tr key={index}>
                       
-                        <td className="p-4 border-b ">{invoices.companyName}</td>
-                        <td className="p-4 border-b ">{invoices.finalPrice}</td>
-                        <td className="p-4 border-b ">{invoices.dateOfService}</td>
-                        <td className="p-4 border-b ">{invoices.invoiceNumber}</td>
+                        <td className="p-4 border-b ">{currInvoice.companyName}</td>
+                        <td className="p-4 border-b ">{currInvoice.finalPrice}</td>
+                        <td className="p-4 border-b ">{currInvoice.dateOfService}</td>
+                        <td className="p-4 border-b ">{currInvoice.invoiceNumber}</td>
                         <td className="p-4 border-b ">
                           <div className="flex gap-2">
-                            <button onClick={() => deleteInvoice(invoices._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
+                            <button onClick={() => deleteInvoice(currInvoice._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
                             <Link
                                 to = {`/pdfPage`}
-                                state= {{companyName: invoices.companyName, phoneNumber: invoices.phoneNumber, companyEmail: invoices.companyEmail, streetAddress: invoices.streetAddress, cityAddress: invoices.streetAddress, stateAddress: invoices.stateAddress, zipAddress: invoices.zipAddress,
-                                          subtotal: invoices.subtotal, taxRate: invoices.taxRate, jobDescription: invoices.jobDescription, finalPrice: invoices.finalPrice, 
-                                          dateOfService: invoices.dateOfService, invoiceNumber: invoices.invoiceNumber}}
+                                state= {{companyName: currInvoice.companyName, phoneNumber: currInvoice.phoneNumber, companyEmail: currInvoice.companyEmail, streetAddress: currInvoice.streetAddress, cityAddress: currInvoice.streetAddress, stateAddress: currInvoice.stateAddress, zipAddress: currInvoice.zipAddress,
+                                          subtotal: currInvoice.subtotal, taxRate: currInvoice.taxRate, jobDescription: currInvoice.jobDescription, finalPrice: currInvoice.finalPrice, 
+                                          dateOfService: currInvoice.dateOfService, invoiceNumber: currInvoice.invoiceNumber}}
                                 className="inline-block text-center text-sm bg-blue-500 font-semibold text-white rounded px-2 py-1 transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer">
                                 PDF
                             </Link>
                           </div>
                         </td>
                         <td className="p-4 border-b "><Collapsible trigger={"Show"}>
-                            <p>Job Breakdown: {invoices.jobDescription}</p>
-                            <p>Subtotal: ${invoices.subtotal}</p>
-                            <p>Tax: ${(invoices.subtotal*(invoices.taxRate/100)).toFixed(2)}</p>
+                            <p>Job Breakdown: {currInvoice.jobDescription}</p>
+                            <p>Subtotal: ${currInvoice.subtotal}</p>
+                            <p>Tax: ${(currInvoice.subtotal*(currInvoice.taxRate/100)).toFixed(2)}</p>
                             
                         </Collapsible></td>
                       </tr>
                   )
                 }
-                else if ((invoices.companyName===customers.companyName)) {
+                else if ((currInvoice.companyName===customers.companyName)) {
                     return (
                         <tr key={index}>
-                        <td className="p-4 border-b ">{invoices.companyName}</td>
-                        <td className="p-4 border-b ">{invoices.finalPrice}</td>
-                        <td className="p-4 border-b ">{invoices.dateOfService}</td>
-                        <td className="p-4 border-b ">{invoices.invoiceNumber}</td>
+                        <td className="p-4 border-b ">{currInvoice.companyName}</td>
+                        <td className="p-4 border-b ">{currInvoice.finalPrice}</td>
+                        <td className="p-4 border-b ">{currInvoice.dateOfService}</td>
+                        <td className="p-4 border-b ">{currInvoice.invoiceNumber}</td>
                         <td className="p-4 border-b ">
                           <div className="flex gap-2">
-                            <button onClick={() => deleteInvoice(invoices._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
+                            <button onClick={() => deleteInvoice(currInvoice._id)} className="inline-block text-sm font-semibold text-white px-2 py-1 bg-red-500 rounded transition ease-in-out duration-300 hover:bg-red-700">Delete</button>
                             <Link
                                 to = {`/pdfPage`}
-                                state= {{customerInfo: customers, subtotal: invoices.subtotal, taxRate: invoices.taxRate, jobDescription: invoices.jobDescription, finalPrice: invoices.finalPrice, dateOfService: invoices.dateOfService}}
+                                state= {{customerInfo: customers, subtotal: currInvoice.subtotal, taxRate: currInvoice.taxRate, jobDescription: currInvoice.jobDescription, finalPrice: currInvoice.finalPrice, dateOfService: currInvoice.dateOfService}}
                                 className="inline-block text-center text-sm bg-blue-500 font-semibold text-white rounded px-2 py-1 transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer">
                                 PDF
                             </Link>
                           </div>
                         </td>
                         <td className="p-4 border-b "><Collapsible trigger={"Show"}>
-                            <p>Job Breakdown: {invoices.jobDescription}</p>
-                            <p>Subtotal: ${invoices.subtotal}</p>
-                            <p>Tax: ${(invoices.subtotal*(invoices.taxRate/100)).toFixed(2)}</p>
+                            <p>Job Breakdown: {currInvoice.jobDescription}</p>
+                            <p>Subtotal: ${currInvoice.subtotal}</p>
+                            <p>Tax: ${(currInvoice.subtotal*(currInvoice.taxRate/100)).toFixed(2)}</p>
                             
                         </Collapsible></td>
                       </tr>
