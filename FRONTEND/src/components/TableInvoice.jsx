@@ -29,6 +29,11 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
     }
   };
 
+  const isProfilePage = (check) => {
+    if(check.companyName==undefined) return false;
+    else return true;
+  }
+
     const handleCheckBox = () => {
       loadInvoicesArr();
       if (delCheckBox) {
@@ -91,7 +96,7 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
         }
         else if ((currInvoice.companyName===customers.companyName)) {
           return (
-            <tr key={index}>
+            <tr key={currInvoice._id}>
               <td className="p-4 border-b ">{currInvoice.companyName}</td>
               <td className="p-4 border-b ">{currInvoice.finalPrice}</td>
               <td className="p-4 border-b ">{currInvoice.dateOfService}</td>
@@ -121,7 +126,7 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
   
     return (
       <div className="mt-6 overflow-auto">
-        <div className="ml-2"><FormControlLabel control={<Switch onChange={handleCheckBox}/>} label="Deleted Companies" /></div>
+        <div className="ml-2"><FormControlLabel disabled={isProfilePage(customers)} control={<Switch onChange={handleCheckBox}/>} label="Deleted Companies" /></div>
         <table className="table-auto mx-auto bg-white">
           <thead className="bg-gray-200">
             <tr>
