@@ -7,6 +7,8 @@ const EditPage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [phoneValidity, setPhoneValidity] = useState(true);
+  const [emailValidity, setEmailValidity] = useState(true);
 
   const [customer, setCustomer] = useState({
     companyName: "",
@@ -43,15 +45,87 @@ const EditPage = () => {
   };
 
   const updateCustomer = async (e) => {
-    e.preventDefault();
     try {
       await axios.put(`http://localhost:3000/api/customer/${id}`, customer);
-      toast.success("Updated a customer successfully");
+      toast.success(`Updated ${customer.companyName} Successfully`);
       navigate("/");
     } catch (error) {
       toast.error(error.message);
     }
   };
+
+  const validateNumber = (tempNumber) => {
+    const valNumber = '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
+        var phoneTemp = document.getElementById(`phoneField`)
+        if (!tempNumber.match(valNumber)) {
+            toast.error(
+                <div>
+                    <p>Please input phone number in one of the following format:</p> <br/>
+                    <p>XXX XXX XXXX</p> <br/>
+                    <p>(XXX) XXX-XXXX</p> <br/>
+                    <p>XXX-XXX-XXXX</p>
+                </div>
+            )
+
+            phoneTemp.classList.remove('border-green-500')
+            phoneTemp.classList.add('border-red-500')
+            setPhoneValidity(false)
+        }
+        else {
+            phoneTemp.classList.remove('border-2', 'border-red-500')
+            phoneTemp.classList.add('border-green-500')
+            setPhoneValidity(true)
+        }
+  }
+
+  const validateEmail = (tempEmail) => {
+    const valEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+        var emailTemp = document.getElementById(`emailField`)
+        if(!tempEmail.match(valEmail)) {
+            toast.error(
+                <div>
+                    <p>Please input email in the following format:</p> <br/>
+                    <p>emailAddress@domain.type</p>
+                </div>
+            )
+
+            emailTemp.classList.remove('border-green-500')
+            emailTemp.classList.add('border-red-500')
+            setEmailValidity(false)
+        }
+        else {
+            emailTemp.classList.remove('border-2', 'border-red-500')
+            emailTemp.classList.add('border-green-500')
+            setEmailValidity(true)
+        }
+  }
+
+  const validateInfo = (e) => {
+    e.preventDefault();
+
+    if(customer.companyName == "" || customer.phoneNumber == "" || customer.contactName==""){
+      toast.error("Please fill make sure all essential fields are filled");
+      var companyTemp = document.getElementById(`nameField`)
+      var contactTemp = document.getElementById(`contactField`)
+      var phoneTemp = document.getElementById(`phoneField`)
+
+      companyTemp.classList.add('border-2', 'border-red-500');
+      contactTemp.classList.add('border-2', 'border-red-500');
+      phoneTemp.classList.add('border-2', 'border-red-500');
+      return;
+    }
+
+    else if(!phoneValidity || !emailValidity) {
+        toast.error('Check phone number and email for correct format');
+        var phoneTemp = document.getElementById(`phoneField`);
+        var emailTemp = document.getElementById(`emailField`);
+        phoneTemp.classList.add('border-2', 'border-red-500');
+        emailTemp.classList.add('border-2', 'border-red-500');
+        return;
+    }
+
+    else updateCustomer();
+  }
 
   useEffect(() => {
     getCustomer();
@@ -66,13 +140,14 @@ const EditPage = () => {
         "Loading"
       ) : (
         <>
-          <form onSubmit={updateCustomer}>
+          <form onSubmit={validateInfo}>
             <div className="space-y-2">
               <div>
                 <label className="text-gray-600 mb-2 block font-semibold">
                   Company Name
                 </label>
                 <input
+                  id="nameField"
                   type="text"
                   value={customer.companyName}
                   onChange={(e) =>
@@ -87,27 +162,13 @@ const EditPage = () => {
                   Phone Number
                 </label>
                 <input
+                  id="phoneField"
                   type="text"
                   value={customer.phoneNumber}
-                  onChange={(e) =>
-                    setCustomer({ ...customer, phoneNumber: e.target.value })
-                  }
+                  onChange={(e) => setCustomer({ ...customer, phoneNumber: e.target.value })}
+                  onBlur={(e) => validateNumber(e.target.value)}
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Phone Number"
-                />
-              </div>
-              <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
-                  Contact Name
-                </label>
-                <input
-                  type="text"
-                  value={customer.contactName}
-                  onChange={(e) =>
-                    setCustomer({ ...customer, contactName: e.target.value })
-                  }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
-                  placeholder="Contact Name"
                 />
               </div>
               <div>
@@ -115,13 +176,30 @@ const EditPage = () => {
                   Email
                 </label>
                 <input
+                  id="emailField"
                   type="text"
                   value={customer.companyEmail}
                   onChange={(e) =>
                     setCustomer({ ...customer, companyEmail: e.target.value })
                   }
+                  onBlur={(e) => {validateEmail(e.target.value)}}
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Email"
+                />
+              </div>
+              <div>
+                <label className="text-gray-600 mb-2 block font-semibold">
+                  Contact Name
+                </label>
+                <input
+                  id="contactField"
+                  type="text"
+                  value={customer.contactName}
+                  onChange={(e) =>
+                    setCustomer({ ...customer, contactName: e.target.value })
+                  }
+                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
+                  placeholder="Contact Name"
                 />
               </div>
               <div>
