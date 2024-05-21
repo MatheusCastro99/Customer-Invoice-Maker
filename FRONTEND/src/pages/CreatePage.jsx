@@ -19,15 +19,11 @@ const CreatePage = () => {
     let [image, setImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const [phoneValidity, setPhoneValidity] = useState(false);
+    const [emailValidity, setEmailValidity] = useState(false)
 
-    const saveCustomer = async(e) => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON SAVE BUTTON CLICKED
-        e.preventDefault();
-        if(companyName === "" || phoneNumber === "" || contactName===""){
-            toast.error('Please fill out all input completely');
-            return;
-        }
-
-        else if(image ==="") {
+    const saveCustomer = async() => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON SAVE BUTTON CLICKED
+        if(image ==="") {
             image = 
                 "https://www.iprcenter.gov/image-repository/blank-profile-picture.png/@@images/image.png";
         }
@@ -48,6 +44,78 @@ const CreatePage = () => {
         }
     }
 
+    const validateNumber = (tempNumber) => {
+        const valNumber = '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
+        var phoneTemp = document.getElementById(`phoneField`)
+        if (!tempNumber.match(valNumber)) {
+            toast.error(
+                <div>
+                    <p>Please input phone number in one of the following format:</p> <br/>
+                    <p>XXX XXX XXXX</p> <br/>
+                    <p>(XXX) XXX-XXXX</p> <br/>
+                    <p>XXX-XXX-XXXX</p>
+                </div>
+            )
+
+            phoneTemp.classList.remove('border-green-500')
+            phoneTemp.classList.add('border-red-500')
+            setPhoneValidity(false)
+        }
+        else {
+            phoneTemp.classList.remove('border-2', 'border-red-500')
+            phoneTemp.classList.add('border-green-500')
+            setPhoneValidity(true)
+        }
+    }
+
+    const validateEmail = (tempEmail) => {
+        const valEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+        var emailTemp = document.getElementById(`emailField`)
+        if(!tempEmail.match(valEmail)) {
+            toast.error(
+                <div>
+                    <p>Please input email in the following format:</p> <br/>
+                    <p>emailAddress@domain.type</p>
+                </div>
+            )
+
+            emailTemp.classList.remove('border-green-500')
+            emailTemp.classList.add('border-red-500')
+            setEmailValidity(false)
+        }
+        else {
+            emailTemp.classList.remove('border-2', 'border-red-500')
+            emailTemp.classList.add('border-green-500')
+            setEmailValidity(true)
+        }
+    }
+
+    const checkValidity = (e) => {
+        e.preventDefault();
+        if(companyName == "" || phoneNumber == "" || contactName==""){
+            toast.error("Please fill make sure all essential fields are filled");
+            var companyTemp = document.getElementById(`nameField`)
+            var contactTemp = document.getElementById(`contactField`)
+            var phoneTemp = document.getElementById(`phoneField`)
+
+            companyTemp.classList.add('border-2', 'border-red-500')
+            contactTemp.classList.add('border-2', 'border-red-500')
+            phoneTemp.classList.add('border-2', 'border-red-500')
+            return;
+        }
+
+        else if(!phoneValidity || !emailValidity) {
+            toast.error('Check phone number and email for correct format');
+            var phoneTemp = document.getElementById(`phoneField`)
+            var emailTemp = document.getElementById(`emailField`)
+            phoneTemp.classList.add('border-2', 'border-red-500')
+            emailTemp.classList.add('border-2', 'border-red-500')
+            return;
+        }
+        
+        else saveCustomer();
+    }
+
 
     return (
         <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
@@ -55,29 +123,29 @@ const CreatePage = () => {
                 Create a Customer
             </h2>
             <div className="mb-3"><Divider variant="middle"/></div>
-            <form onSubmit={saveCustomer}>
+            <form onSubmit={checkValidity}>
                 <div className="space-y-2">
                     <div>
                         <Collapsible trigger={<Chip label="Contact Info ⤵" size="small" />} open={true}>
                             <div className="block mt-1">
                                 <label className="text-gray-600 mb-2 block font-semibold">Company Name</label>
-                                <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-3/4 flex ml-7 border p-3 align-center text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
+                                <input id="nameField" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-3/4 flex ml-7 border p-3 align-center text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Phone Number</label>
-                                <input type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Phone Number" />
-                            </div>
-                            <div>
-                                <label className="text-gray-600 mb-2 block font-semibold">Contact Name</label>
-                                <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Contact Name" />
+                                <input id="phoneField" type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} onBlur={(e) => validateNumber(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Phone Number" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Email</label>
-                                <input type="text" value={companyEmail} onChange={(e) => setCompanyEmail(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Email" />
+                                <input id="emailField" type="text" value={companyEmail} onChange={(e) => setCompanyEmail(e.target.value)} onBlur={(e) => validateEmail(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Email" />
+                            </div>
+                            <div>
+                                <label className="text-gray-600 mb-2 block font-semibold">Contact Name</label>
+                                <input id="contactField" type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Contact Name" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Image URL</label>
-                                <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Image URL" />
+                                <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Image URL" />
                             </div>
                         </Collapsible>
                     </div>

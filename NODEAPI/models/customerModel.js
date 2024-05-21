@@ -8,7 +8,7 @@ const customerSchema = mongoose.Schema(
     },
 
     phoneNumber: {
-      type: Number,
+      type: String,
       required: [true, "please enter the phone number"],
     },
 
@@ -43,7 +43,7 @@ const customerSchema = mongoose.Schema(
     },
 
     zipAddress: {
-      type: Number,
+      type: String,
       required: false,
     },
   },

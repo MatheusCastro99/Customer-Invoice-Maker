@@ -8,7 +8,7 @@ const invoiceSchema = mongoose.Schema(
     },
 
     phoneNumber: {
-      type: Number,
+      type: String,
       required: [true, "please enter the phone number"],
     },
 
@@ -33,7 +33,7 @@ const invoiceSchema = mongoose.Schema(
     },
 
     zipAddress: {
-      type: Number,
+      type: String,
       required: false,
     },
 
