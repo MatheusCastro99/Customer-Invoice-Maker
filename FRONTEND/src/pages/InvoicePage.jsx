@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
@@ -14,8 +15,9 @@ const InvoicePage = () => {
     const [tempCustomer, setTempCustomer] = useState([]);
     const [correspondingTax, setCorrespondingTax] = useState();
     const [finalPrice, setFinalPrice] = useState();
-    const [dateOfService, setDateOfService] = useState();
+    const [dateOfService, setDateOfService] = useState('');
     const [invoiceNumber, setInvoiceNumber]= useState();
+    const [dateValidity, setDateValidity] = useState(false);
 
     const requestInfo = async (e) => {
         try {
@@ -36,9 +38,6 @@ const InvoicePage = () => {
         }    
     }
 
-    const handleJobDescription = (e) => {
-      setJobDescription(e.target.value)
-    }
     const handleJobPrice = async(e) => {
       setJobPrice(e.target.value)
       const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, 
@@ -49,11 +48,32 @@ const InvoicePage = () => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
       setCorrespondingTax(getTaxRate.data);
     }
-    const handleDateOfService = (e) => {
-      setDateOfService(e.target.value)
-    }
-    const handleInvoiceNumber = (e) => {
-      setInvoiceNumber(e.target.value)
+    
+    const validateDate = (date) => {
+      const valDate = '^\\d{2}/?\\d{2}/?\\d{4}$'
+      var dateField = document.getElementById('dateField')
+      if (!date.match(valDate)) {
+        toast.error(
+          <div>
+              <p>Please input date in the following format:</p> <br/>
+              <p>MMDDYYYY</p>
+          </div>
+      )
+
+      dateField.classList.add('border', 'border-red-500')
+      setDateValidity(false)
+      }
+
+      else {
+        dateField.classList.remove('border', 'border-red-500')
+        let chars = [...date]
+        if(chars.length<10){
+          chars.splice(2, 0, "/")
+          chars.splice(5, 0, "/")
+        }
+        setDateOfService(chars.join(''))
+        setDateValidity(true)
+      }
     }
 
     const fetchData = async () => {
@@ -103,10 +123,12 @@ const InvoicePage = () => {
                         </label>
                         <input
                           type="text"
+                          id="dateField"
                           value={dateOfService || ''}
-                          onChange={handleDateOfService}
+                          onChange={(e) => setDateOfService(e.target.value)}
+                          onBlur={(e) => {validateDate(e.target.value)}}
                           className="w-1/2 font-semibold text-lg mb-2 ml-4 block row"
-                          placeholder="Enter Initial Date of service"
+                          placeholder="Date of Service: mmddyyyy"
                         />
                         <label className="mb-2 block font-semibold row">
                           Invoice Number:
@@ -114,7 +136,7 @@ const InvoicePage = () => {
                         <input
                           type="text"
                           value={invoiceNumber || ''}
-                          onChange={handleInvoiceNumber}
+                          onChange={(e) => setInvoiceNumber(e.target.value)}
                           className="w-1/2 font-semibold text-lg mb-2 ml-4 block row"
                           placeholder="Enter Invoice Number"
                         />
@@ -126,7 +148,7 @@ const InvoicePage = () => {
                         <textarea
                           type="text"
                           value={jobDescription || ''}
-                          onChange={handleJobDescription}
+                          onChange={(e) => setJobDescription(e.target.value)}
                           className="w-full font-semibold text-lg mb-2 block text-center"
                           placeholder="Enter Job Description"
                         />

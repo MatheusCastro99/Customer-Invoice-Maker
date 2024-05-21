@@ -45,7 +45,7 @@ const CreatePage = () => {
     }
 
     const validateNumber = (tempNumber) => {
-        const valNumber = '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
+        const valNumber = '^\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
         var phoneTemp = document.getElementById(`phoneField`)
         if (!tempNumber.match(valNumber)) {
             toast.error(
@@ -64,6 +64,15 @@ const CreatePage = () => {
         else {
             phoneTemp.classList.remove('border-2', 'border-red-500')
             phoneTemp.classList.add('border-green-500')
+
+            let chars = [...tempNumber]
+            if (chars.length<14) {
+                chars.splice(0, 0, "(");
+                chars.splice(4, 1, ") ");
+                chars.splice(8, 1, "-");
+                setPhoneNumber(chars.join(''));
+            }
+            
             setPhoneValidity(true)
         }
     }

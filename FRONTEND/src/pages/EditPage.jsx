@@ -56,31 +56,42 @@ const EditPage = () => {
 
   const validateNumber = (tempNumber) => {
     const valNumber = '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
-        var phoneTemp = document.getElementById(`phoneField`)
-        if (!tempNumber.match(valNumber)) {
-            toast.error(
-                <div>
-                    <p>Please input phone number in one of the following format:</p> <br/>
-                    <p>XXX XXX XXXX</p> <br/>
-                    <p>(XXX) XXX-XXXX</p> <br/>
-                    <p>XXX-XXX-XXXX</p>
-                </div>
-            )
+    var phoneTempField = document.getElementById(`phoneField`)
 
-            phoneTemp.classList.remove('border-green-500')
-            phoneTemp.classList.add('border-red-500')
-            setPhoneValidity(false)
+    if (!tempNumber.match(valNumber)) {
+        toast.error(
+            <div>
+                <p>Please input phone number in one of the following format:</p> <br/>
+                <p>XXX XXX XXXX</p> <br/>
+                <p>(XXX) XXX-XXXX</p> <br/>
+                <p>XXX-XXX-XXXX</p>
+            </div>
+        )
+
+        phoneTempField.classList.remove('border-green-500')
+        phoneTempField.classList.add('border-red-500')
+        setPhoneValidity(false)
+    }
+
+    else {
+        phoneTempField.classList.remove('border-2', 'border-red-500')
+        phoneTempField.classList.add('border-green-500')
+
+        let chars = [...tempNumber]
+        if (chars.length<14) {
+            chars.splice(0, 0, "(");
+            chars.splice(4, 1, ") ");
+            chars.splice(8, 1, "-");
+            setPhoneNumber(chars.join(''));
         }
-        else {
-            phoneTemp.classList.remove('border-2', 'border-red-500')
-            phoneTemp.classList.add('border-green-500')
-            setPhoneValidity(true)
-        }
+
+        setPhoneValidity(true)
+    }
   }
 
   const validateEmail = (tempEmail) => {
     const valEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
-        var emailTemp = document.getElementById(`emailField`)
+        var emailTempField = document.getElementById(`emailField`)
         if(!tempEmail.match(valEmail)) {
             toast.error(
                 <div>
@@ -89,13 +100,13 @@ const EditPage = () => {
                 </div>
             )
 
-            emailTemp.classList.remove('border-green-500')
-            emailTemp.classList.add('border-red-500')
+            emailTempField.classList.remove('border-green-500')
+            emailTempField.classList.add('border-red-500')
             setEmailValidity(false)
         }
         else {
-            emailTemp.classList.remove('border-2', 'border-red-500')
-            emailTemp.classList.add('border-green-500')
+            emailTempField.classList.remove('border-2', 'border-red-500')
+            emailTempField.classList.add('border-green-500')
             setEmailValidity(true)
         }
   }
