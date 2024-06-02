@@ -18,6 +18,11 @@ const InvoicePage = () => {
     const [dateOfService, setDateOfService] = useState('');
     const [invoiceNumber, setInvoiceNumber]= useState();
     const [dateValidity, setDateValidity] = useState(false);
+    const [invoiceNumValidity, setInvoiceNumValidity] = useState(false);
+    const [invoicesArr, setInvoicesArr] = useState([]);
+    const invoiceNumField = document.getElementById("invoiceNum");
+    const pdfButtonField = document.getElementById("pdfButton");
+    const dateField = document.getElementById('dateField');
 
     const requestInfo = async (e) => {
         try {
@@ -38,6 +43,16 @@ const InvoicePage = () => {
         }    
     }
 
+    const getInvoices = async() => {
+      try {
+          const response = await axios.get("http://localhost:3000/api/generateInvoice");
+          //console.log(response.data);
+          setInvoicesArr(response.data);
+        } catch (error) {
+          toast.error(error.message);
+        }
+  }
+
     const handleJobPrice = async(e) => {
       setJobPrice(e.target.value)
       const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, 
@@ -48,10 +63,9 @@ const InvoicePage = () => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
       setCorrespondingTax(getTaxRate.data);
     }
-    
+
     const validateDate = (date) => {
       const valDate = '^\\d{2}/?\\d{2}/?\\d{4}$'
-      var dateField = document.getElementById('dateField')
       if (!date.match(valDate)) {
         toast.error(
           <div>
@@ -61,11 +75,13 @@ const InvoicePage = () => {
       )
 
       dateField.classList.add('border', 'border-red-500')
+      pdfButtonField.classList.add('hover:cursor-not-allowed');
       setDateValidity(false)
       }
 
       else {
-        dateField.classList.remove('border', 'border-red-500')
+        dateField.classList.remove('border', 'border-red-500');
+        pdfButtonField.classList.remove('hover:cursor-not-allowed');
         let chars = [...date]
         if(chars.length<10){
           chars.splice(2, 0, "/")
@@ -73,6 +89,49 @@ const InvoicePage = () => {
         }
         setDateOfService(chars.join(''))
         setDateValidity(true)
+      }
+    }
+
+    const validateInvoiceNum = (invoiceNum) => {
+      const lastInvoice = invoicesArr[((invoicesArr.length)-1)];
+
+      if (invoiceNum <= lastInvoice.invoiceNumber) {
+        toast.error(
+          <div>
+              <p>Error: Invoice Number is not unique</p> <br/>
+              <p>last invoice number is #{lastInvoice.invoiceNumber}</p>
+          </div>
+        )
+        invoiceNumField.classList.remove('border-green-500');
+        invoiceNumField.classList.add('border', 'border-red-500');
+        pdfButtonField.classList.add('hover:cursor-not-allowed');
+        setInvoiceNumValidity(false);
+      }
+      else if (invoiceNum >= (parseInt(lastInvoice.invoiceNumber)+2)) {
+        toast.error(
+          <div>
+              <p>Attention: Invoice Number skipped one or more numbers</p> <br/>
+              <p>last invoice number is #{lastInvoice.invoiceNumber}</p> <br/>
+              <p>If you wish to proceed, ignore this warning</p>
+          </div>
+        )
+      }
+      else {
+        invoiceNumField.classList.remove('border-red-500');
+        invoiceNumField.classList.add('border', 'border-green-500');
+        pdfButtonField.classList.remove('hover:cursor-not-allowed');
+        setInvoiceNumValidity(true);
+      }
+    }
+
+    const checkValidity = (e) => {
+      if(!(dateValidity&&invoiceNumValidity) || jobPrice == 0) {
+        e.preventDefault();
+        toast.error(
+          <div>
+              <p>Check Date, Invoice Number, and Subtotal</p> <br/>
+          </div>
+        )
       }
     }
 
@@ -84,7 +143,7 @@ const InvoicePage = () => {
             
         }}
 
-    useEffect( () => {fetchData()},[]);
+    useEffect( () => {fetchData(), getInvoices()},[]);
         return (
             <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
                 <h2 id="home" className="font-semibold text-2xl mb-4 block text-center">
@@ -135,8 +194,10 @@ const InvoicePage = () => {
                         </label>
                         <input
                           type="text"
+                          id="invoiceNum"
                           value={invoiceNumber || ''}
                           onChange={(e) => setInvoiceNumber(e.target.value)}
+                          onBlur={(e) => validateInvoiceNum(e.target.value)}
                           className="w-1/2 font-semibold text-lg mb-2 ml-4 block row"
                           placeholder="Enter Invoice Number"
                         />
@@ -209,7 +270,9 @@ const InvoicePage = () => {
                 </div>
                 <div className="w-full flex justify-center">
                     <Link
+                      id="pdfButton"
                       to = {`/pdfPage`}
+                      onClick={checkValidity}
                       state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService, invoiceNumber: invoiceNumber}}
                       className="inline-block w-1/2 text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
                       Generate PDF

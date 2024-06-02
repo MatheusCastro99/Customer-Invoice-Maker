@@ -68,7 +68,7 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
           return(
             <tr key={currInvoice._id}>
               <td className="p-4 border-b ">{currInvoice.companyName}</td>
-              <td className="p-4 border-b ">{currInvoice.finalPrice}</td>
+              <td className="p-4 border-b ">{`$${currInvoice.finalPrice}`}</td>
               <td className="p-4 border-b ">{currInvoice.dateOfService}</td>
               <td className="p-4 border-b ">{currInvoice.invoiceNumber}</td>
               <td className="p-4 border-b ">
