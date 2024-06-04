@@ -14,7 +14,7 @@ const InvoicePage = () => {
     const [customers, setCustomers] = useState([]);
     const [tempCustomer, setTempCustomer] = useState([]);
     const [correspondingTax, setCorrespondingTax] = useState();
-    const [finalPrice, setFinalPrice] = useState();
+    const [finalPrice, setFinalPrice] = useState(0.00);
     const [dateOfService, setDateOfService] = useState('');
     const [invoiceNumber, setInvoiceNumber]= useState();
     const [dateValidity, setDateValidity] = useState(false);
@@ -261,9 +261,9 @@ const InvoicePage = () => {
                         <input
                           readOnly = {true}
                           type="text"
-                          value={[finalPrice || '']}
                           className="w-full font-semibold text-lg mb-2 block text-center"
                           placeholder="Total Price"
+                          value={"$"+[parseFloat(finalPrice).toFixed(2) || '']}
                         />
                     </div>
                   </Collapsible>

@@ -20,7 +20,8 @@ const CreatePage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [phoneValidity, setPhoneValidity] = useState(false);
-    const [emailValidity, setEmailValidity] = useState(false)
+    const [emailValidity, setEmailValidity] = useState(false);
+    const [zipCodeValidity, setZipCodeValidity] = useState(false);
 
     const saveCustomer = async() => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON SAVE BUTTON CLICKED
         if(image ==="") {
@@ -99,6 +100,29 @@ const CreatePage = () => {
         }
     }
 
+    const validateZipCode = (tempZipCode) => {
+        const valZipCode = '^\\d{5}(-\\d{4})?$'
+        var zipCodeTemp = document.getElementById(`zipCodeField`)
+        if(!tempZipCode.match(valZipCode)) {
+            toast.error(
+                <div>
+                    <p>Please input Zip Code in the following format:</p> <br/>
+                    <p>XXXXX</p>
+                    <p>XXXXX-XXXX</p>
+                </div>
+            )
+
+            zipCodeTemp.classList.remove('border-green-500')
+            zipCodeTemp.classList.add('border-red-500')
+            setZipCodeValidity(false)
+        }
+        else {
+            zipCodeTemp.classList.remove('border-2', 'border-red-500')
+            zipCodeTemp.classList.add('border-green-500')
+            setZipCodeValidity(true)
+        }
+    }
+
     const checkValidity = (e) => {
         e.preventDefault();
         if(companyName == "" || phoneNumber == "" || contactName==""){
@@ -113,12 +137,14 @@ const CreatePage = () => {
             return;
         }
 
-        else if(!phoneValidity || !emailValidity) {
-            toast.error('Check phone number and email for correct format');
+        else if(!phoneValidity || !emailValidity || !zipCodeValidity) {
+            toast.error('Check phone number, email, and zip code for correct format');
             var phoneTemp = document.getElementById(`phoneField`)
             var emailTemp = document.getElementById(`emailField`)
+            var zipCodeTemp = document.getElementById(`zipCodeField`)
             phoneTemp.classList.add('border-2', 'border-red-500')
             emailTemp.classList.add('border-2', 'border-red-500')
+            zipCodeTemp.classList.add('border-2', 'border-red-500')
             return;
         }
         
@@ -173,7 +199,7 @@ const CreatePage = () => {
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Zip Code</label>
-                                <input type="text" value={zipAddress} onChange={(e) => setZipAddress(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Zip Code" />
+                                <input id="zipCodeField" type="text" value={zipAddress} onChange={(e) => setZipAddress(e.target.value)} onBlur={(e) => validateZipCode(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Zip Code" />
                             </div>
                         </Collapsible>
                     </div>

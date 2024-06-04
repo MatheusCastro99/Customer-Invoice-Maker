@@ -7,10 +7,7 @@ import Divider from '@mui/material/Divider';
 import Collapsible from 'react-collapsible';
 import TableInvoice from "../components/TableInvoice";
 
-//INVOICE PAGE: TOTAL STRING FORMATING (106.210000000000000001 FIX NUMBER OF CASES)
-//CREATE/EDIT: ADD ZIPCODE VALIDATION (XXXXX OR XXXXX-XXXX)
 //CREATE PAGE: IMPLEMENT VERIFICATION TO PREVENT CUSTOMERS DUPLICATES
-//HOME PAGE: INVERT INVOICE TABLE (RECENT TO OLD)
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -113,7 +110,7 @@ const HomePage = () => {
             </Divider>
           }>
           <TableInvoice 
-            invoices={invoices} 
+            invoices={[...invoices].reverse()}
             getInvoices={getInvoices}
             customers={customers}
           />
