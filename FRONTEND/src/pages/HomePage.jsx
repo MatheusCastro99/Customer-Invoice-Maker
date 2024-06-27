@@ -10,7 +10,7 @@ import TableInvoice from "../components/TableInvoice";
 //CREATE PAGE: IMPLEMENT VERIFICATION TO PREVENT CUSTOMERS DUPLICATES
 //PDF/INVOICE: CHANGE JOB DESCRIPTION TO A LIST OF ITEMS WITH 4 COLUMNS, ITEM, QTY, EA PRICE, TOTAL. DO MATH FOR SUBTOTAL AUTOMATICALLY
 //DATE RANGER FILTER FOR INVOICE LIST
-//test
+//testing shortcut
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
