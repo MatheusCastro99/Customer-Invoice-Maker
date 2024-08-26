@@ -19,7 +19,7 @@ const customerSchema = mongoose.Schema(
 
     contactName: {
       type: String,
-      required: [true, "please enter the contact name"],
+      required: false,
     },
 
     image: {

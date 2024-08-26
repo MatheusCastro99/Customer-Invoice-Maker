@@ -27,7 +27,7 @@ const defineTaxRate = asyncHandler((req, res) => {
     }
   }
   correspondingTax(state);
-  console.log([state, taxRate]);
+  //console.log([state, taxRate]);
   res.status(200).json(taxRate);
 });
 

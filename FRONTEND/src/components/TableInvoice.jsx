@@ -14,8 +14,12 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
   const deleteInvoice = async (id) => {
     const result = await Swal.fire({
       title: "Do you want to delete this invoice?",
+      text: "You will not be able to revert this change.",
+      icon: "warning",
       showCancelButton: true,
+      cancelButtonColor:"#aaa",
       confirmButtonText: "Delete",
+      confirmButtonColor:"#3085d6"
     });
 
     if (result.isConfirmed) {

@@ -7,9 +7,10 @@ const EditPage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [nameValidity, setNameValidity] = useState(true);
   const [phoneValidity, setPhoneValidity] = useState(true);
   const [emailValidity, setEmailValidity] = useState(true);
-
+  const [zipCodeValidity, setZipCodeValidity] = useState(true);
   const [customer, setCustomer] = useState({
     companyName: "",
     phoneNumber: "",
@@ -22,7 +23,7 @@ const EditPage = () => {
     zipAddress: "",
   });
 
-  const getCustomer = async () => { //ADD VALIDATION TO CHECK FORMAT OF FIELDS ON UPDATE BUTTON CLICKED
+  const getCustomer = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:3000/api/customer/${id}`);
@@ -54,11 +55,58 @@ const EditPage = () => {
     }
   };
 
+  const validateName = (tempName) => {
+    const prohibitedChars = /[<>:"/\\|?+*\x00-\x1F]/
+    var nameTemp = document.getElementById(`nameField`)
+
+    if (tempName=="") {
+        toast.error(
+            <div>
+                <p>Company Name is a required field, please do not leave it unfilled</p>
+            </div>
+        )
+
+        nameTemp.classList.remove('border-green-500')
+        nameTemp.classList.add('border-red-500')
+        setNameValidity(false)
+    }
+
+    else if (tempName.match(prohibitedChars)) {
+        toast.error(
+            <div>
+                <p>Please do not include the following characters in Company Name</p>
+                <p>"  /  |  \  ?  *  :  &lt;  &gt;  +</p>
+            </div>
+        )
+
+        nameTemp.classList.remove('border-green-500')
+        nameTemp.classList.add('border-red-500')
+        setNameValidity(false)}
+
+    else {
+        nameTemp.classList.remove('border-2', 'border-red-500')
+        nameTemp.classList.add('border-green-500')
+        setNameValidity(true)
+    }
+}
+
   const validateNumber = (tempNumber) => {
     const valNumber = '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
     var phoneTempField = document.getElementById(`phoneField`)
 
-    if (!tempNumber.match(valNumber)) {
+    if (tempNumber=="") {
+      toast.error(
+          <div>
+              <p>Phone Number is a required field, please do not leave it unfilled</p>
+          </div>
+      )
+
+      phoneTempField.classList.remove('border-green-500')
+      phoneTempField.classList.add('border-red-500')
+      setPhoneValidity(false)
+    }
+
+    else if (!tempNumber.match(valNumber)) {
         toast.error(
             <div>
                 <p>Please input phone number in one of the following format:</p> <br/>
@@ -92,7 +140,20 @@ const EditPage = () => {
   const validateEmail = (tempEmail) => {
     const valEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
         var emailTempField = document.getElementById(`emailField`)
-        if(!tempEmail.match(valEmail)) {
+
+        if (tempEmail=="") {
+          toast.error(
+              <div>
+                  <p>Email is a required field, please do not leave it unfilled</p>
+              </div>
+          )
+    
+          emailTempField.classList.remove('border-green-500')
+          emailTempField.classList.add('border-red-500')
+          setEmailValidity(false)
+        }
+
+        else if(!tempEmail.match(valEmail)) {
             toast.error(
                 <div>
                     <p>Please input email in the following format:</p> <br/>
@@ -111,27 +172,56 @@ const EditPage = () => {
         }
   }
 
+  const validateZipCode = (tempZipCode) => {
+    const valZipCode = '^\\d{5}(-\\d{4})?$'
+    var zipCodeTemp = document.getElementById(`zipCodeField`)
+
+    if (tempZipCode=="") {
+        toast.error(
+            <div>
+                <p>Zip Code is a required field, please do not leave it unfilled</p>
+            </div>
+        )
+
+        zipCodeTemp.classList.remove('border-green-500')
+        zipCodeTemp.classList.add('border-red-500')
+        setZipCodeValidity(false)
+    }
+
+    else if(!tempZipCode.match(valZipCode)) {
+        toast.error(
+            <div>
+                <p>Please input Zip Code in one of the following format:</p> <br/>
+                <p>XXXXX</p>
+                <p>XXXXX-XXXX</p>
+            </div>
+        )
+
+        zipCodeTemp.classList.remove('border-green-500')
+        zipCodeTemp.classList.add('border-red-500')
+        setZipCodeValidity(false)
+    }
+    else {
+        zipCodeTemp.classList.remove('border-2', 'border-red-500')
+        zipCodeTemp.classList.add('border-green-500')
+        setZipCodeValidity(true)
+    }
+}
+
   const validateInfo = (e) => {
     e.preventDefault();
 
-    if(customer.companyName == "" || customer.phoneNumber == "" || customer.contactName==""){
-      toast.error("Please fill make sure all essential fields are filled");
-      var companyTemp = document.getElementById(`nameField`)
-      var contactTemp = document.getElementById(`contactField`)
-      var phoneTemp = document.getElementById(`phoneField`)
-
-      companyTemp.classList.add('border-2', 'border-red-500');
-      contactTemp.classList.add('border-2', 'border-red-500');
-      phoneTemp.classList.add('border-2', 'border-red-500');
-      return;
-    }
-
-    else if(!phoneValidity || !emailValidity) {
-        toast.error('Check phone number and email for correct format');
+    if(!phoneValidity || !emailValidity || !nameValidity || !zipCodeValidity) {
+        toast.error('Check company name, phone number, email, and zip code for correct format');
         var phoneTemp = document.getElementById(`phoneField`);
         var emailTemp = document.getElementById(`emailField`);
-        phoneTemp.classList.add('border-2', 'border-red-500');
-        emailTemp.classList.add('border-2', 'border-red-500');
+        var zipCodeTemp = document.getElementById(`zipCodeField`)
+        var nameTemp = document.getElementById(`nameField`)
+
+        nameValidity?true:nameTemp.classList.add('border-2', 'border-red-500')
+        phoneValidity?true:phoneTemp.classList.add('border-2', 'border-red-500')
+        emailValidity?true:emailTemp.classList.add('border-2', 'border-red-500')
+        zipCodeValidity?true:zipCodeTemp.classList.add('border-2', 'border-red-500')
         return;
     }
 
@@ -164,6 +254,7 @@ const EditPage = () => {
                   onChange={(e) =>
                     setCustomer({ ...customer, companyName: e.target.value })
                   }
+                  onBlur={(e) => validateName(e.target.value)}
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Company Name"
                 />
@@ -280,11 +371,13 @@ const EditPage = () => {
                   Zip Code
                 </label>
                 <input
+                  id="zipCodeField"
                   type="text"
                   value={customer.zipAddress}
                   onChange={(e) =>
                     setCustomer({ ...customer, zipAddress: e.target.value })
                   }
+                  onBlur={(e) => {validateZipCode(e.target.value)}}
                   className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Zip Code"
                 />

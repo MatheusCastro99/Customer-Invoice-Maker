@@ -19,6 +19,7 @@ const CreatePage = () => {
     let [image, setImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const [nameValidity, setNameValidity] = useState(false);
     const [phoneValidity, setPhoneValidity] = useState(false);
     const [emailValidity, setEmailValidity] = useState(false);
     const [zipCodeValidity, setZipCodeValidity] = useState(false);
@@ -45,10 +46,58 @@ const CreatePage = () => {
         }
     }
 
+    const validateName = (tempName) => {
+        const prohibitedChars = /[<>:"/\\|?+*\x00-\x1F]/
+        var nameTemp = document.getElementById(`nameField`)
+
+        if (tempName=="") {
+            toast.error(
+                <div>
+                    <p>Company Name is a required field, please do not leave it unfilled</p>
+                </div>
+            )
+
+            nameTemp.classList.remove('border-green-500')
+            nameTemp.classList.add('border-red-500')
+            setNameValidity(false)
+        }
+
+        else if (tempName.match(prohibitedChars)) {
+            toast.error(
+                <div>
+                    <p>Please do not include the following characters in Company Name</p>
+                    <p>"  /  |  \  ?  *  :  &lt;  &gt;  +</p>
+                </div>
+            )
+
+            nameTemp.classList.remove('border-green-500')
+            nameTemp.classList.add('border-red-500')
+            setNameValidity(false)}
+
+        else {
+            nameTemp.classList.remove('border-2', 'border-red-500')
+            nameTemp.classList.add('border-green-500')
+            setNameValidity(true)
+        }
+    }
+
     const validateNumber = (tempNumber) => {
         const valNumber = '^\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
         var phoneTemp = document.getElementById(`phoneField`)
-        if (!tempNumber.match(valNumber)) {
+
+        if (tempNumber=="") {
+            toast.error(
+                <div>
+                    <p>Phone Number is a required field, please do not leave it unfilled</p>
+                </div>
+            )
+
+            phoneTemp.classList.remove('border-green-500')
+            phoneTemp.classList.add('border-red-500')
+            setPhoneValidity(false)
+        }
+
+        else if (!tempNumber.match(valNumber)) {
             toast.error(
                 <div>
                     <p>Please input phone number in one of the following format:</p> <br/>
@@ -62,6 +111,7 @@ const CreatePage = () => {
             phoneTemp.classList.add('border-red-500')
             setPhoneValidity(false)
         }
+
         else {
             phoneTemp.classList.remove('border-2', 'border-red-500')
             phoneTemp.classList.add('border-green-500')
@@ -81,7 +131,20 @@ const CreatePage = () => {
     const validateEmail = (tempEmail) => {
         const valEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
         var emailTemp = document.getElementById(`emailField`)
-        if(!tempEmail.match(valEmail)) {
+
+        if (tempEmail=="") {
+            toast.error(
+                <div>
+                    <p>Email is a required field, please do not leave it unfilled</p>
+                </div>
+            )
+
+            emailTemp.classList.remove('border-green-500')
+            emailTemp.classList.add('border-red-500')
+            setEmailValidity(false)
+        }
+
+        else if(!tempEmail.match(valEmail)) {
             toast.error(
                 <div>
                     <p>Please input email in the following format:</p> <br/>
@@ -103,7 +166,20 @@ const CreatePage = () => {
     const validateZipCode = (tempZipCode) => {
         const valZipCode = '^\\d{5}(-\\d{4})?$'
         var zipCodeTemp = document.getElementById(`zipCodeField`)
-        if(!tempZipCode.match(valZipCode)) {
+
+        if (tempZipCode=="") {
+            toast.error(
+                <div>
+                    <p>Zip Code is a required field, please do not leave it unfilled</p>
+                </div>
+            )
+
+            zipCodeTemp.classList.remove('border-green-500')
+            zipCodeTemp.classList.add('border-red-500')
+            setZipCodeValidity(false)
+        }
+
+        else if(!tempZipCode.match(valZipCode)) {
             toast.error(
                 <div>
                     <p>Please input Zip Code in the following format:</p> <br/>
@@ -125,26 +201,18 @@ const CreatePage = () => {
 
     const checkValidity = (e) => {
         e.preventDefault();
-        if(companyName == "" || phoneNumber == "" || contactName==""){
-            toast.error("Please fill make sure all essential fields are filled");
-            var companyTemp = document.getElementById(`nameField`)
-            var contactTemp = document.getElementById(`contactField`)
-            var phoneTemp = document.getElementById(`phoneField`)
-
-            companyTemp.classList.add('border-2', 'border-red-500')
-            contactTemp.classList.add('border-2', 'border-red-500')
-            phoneTemp.classList.add('border-2', 'border-red-500')
-            return;
-        }
-
-        else if(!phoneValidity || !emailValidity || !zipCodeValidity) {
-            toast.error('Check phone number, email, and zip code for correct format');
+        if(!phoneValidity || !emailValidity || !zipCodeValidity || !nameValidity) {
+            toast.error('Check company name, phone number, email, and zip code for correct format');
             var phoneTemp = document.getElementById(`phoneField`)
             var emailTemp = document.getElementById(`emailField`)
             var zipCodeTemp = document.getElementById(`zipCodeField`)
-            phoneTemp.classList.add('border-2', 'border-red-500')
-            emailTemp.classList.add('border-2', 'border-red-500')
-            zipCodeTemp.classList.add('border-2', 'border-red-500')
+            var nameTemp = document.getElementById(`nameField`)
+
+            nameValidity?true:nameTemp.classList.add('border-2', 'border-red-500')
+            phoneValidity?true:phoneTemp.classList.add('border-2', 'border-red-500')
+            emailValidity?true:emailTemp.classList.add('border-2', 'border-red-500')
+            zipCodeValidity?true:zipCodeTemp.classList.add('border-2', 'border-red-500')
+
             return;
         }
         
@@ -163,7 +231,7 @@ const CreatePage = () => {
                         <Collapsible trigger={<Chip label="Contact Info ⤵" size="small" />} open={true}>
                             <div className="block mt-1">
                                 <label className="text-gray-600 mb-2 block font-semibold">Company Name</label>
-                                <input id="nameField" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className="w-3/4 flex ml-7 border p-3 align-center text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
+                                <input id="nameField" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} onBlur={(e) => validateName(e.target.value)} className="w-3/4 flex ml-7 border p-3 align-center text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Company Name" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block font-semibold">Phone Number</label>

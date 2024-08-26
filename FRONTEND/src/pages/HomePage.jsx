@@ -8,8 +8,14 @@ import Collapsible from 'react-collapsible';
 import TableInvoice from "../components/TableInvoice";
 
 //CREATE PAGE: IMPLEMENT VERIFICATION TO PREVENT CUSTOMERS DUPLICATES
+      //Verification can be done on server side when new customer info is sent to customerController
+      //Same logic will also serve as basis to refactor some validation on server side as well
 //PDF/INVOICE: CHANGE JOB DESCRIPTION TO A LIST OF ITEMS WITH 4 COLUMNS, ITEM, QTY, EA PRICE, TOTAL. DO MATH FOR SUBTOTAL AUTOMATICALLY
-//DATE RANGER FILTER FOR INVOICE LIST
+//DATE RANGE FILTER FOR INVOICE LIST
+      //Create new component and then load it on TableInvoice
+      //https://mui.com/x/react-date-pickers/date-range-picker/#uncontrolled-vs-controlled-value Date range component. Use controlled version
+      //and slice the month selected to filter invoices dateOfService field
+      //year may be necessary to handle interyears dates (e.g. Dec (12) 2024 - Feb (02) 2025)
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +39,6 @@ const HomePage = () => {
       try {
           setIsLoading(true);
           const response = await axios.get("http://localhost:3000/api/generateInvoice");
-          //console.log(response.data);
           setInvoices(response.data);
           setIsLoading(false);
         } catch (error) {
@@ -48,7 +53,7 @@ const HomePage = () => {
   }, []);
 
   return ( //ADD A SEARCHBAR BY GENERATE INVOICE SIDE
-    <div id="home" className="">
+    <div className="">
       <div className="flex justify-between">
         <div className="inline-block">
         <Link

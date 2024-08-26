@@ -115,6 +115,7 @@ const InvoicePage = () => {
               <p>If you wish to proceed, ignore this warning</p>
           </div>
         )
+        setInvoiceNumValidity(true);
       }
       else {
         invoiceNumField.classList.remove('border-red-500');

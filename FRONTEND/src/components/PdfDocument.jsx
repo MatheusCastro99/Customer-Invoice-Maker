@@ -21,7 +21,7 @@ const MyDocument = (info) => {
     console.log(customerInfo)
 
     return (
-            <Document file = "FRONTEND\src\components\output.pdf">
+            <Document title={`#${invoiceNumber} / ${customerInfo?.companyName||companyName}`}>
                 <Page size="a4" style={pageBox.page}>
             <View style={headerBox.header}>
                 <Image style={headerBox.logo} src= {Logo}/>
