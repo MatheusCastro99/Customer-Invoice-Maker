@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { StyleSheet, PDFViewer, pdf} from '@react-pdf/renderer';
+import { StyleSheet, PDFViewer, pdf, View, Text} from '@react-pdf/renderer';
 import {saveAs} from "file-saver"
 import MyDocument from "../components/PdfDocument";
 import axios from "axios";
@@ -13,12 +13,41 @@ const styles = StyleSheet.create({
       width: "100%",
       height: "880px",
     },
+    table: {
+      display: 'table',
+      width: 'auto',
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderColor: '#000',
+    },
+    tableRow: {
+      flexDirection: 'row',
+    },
+    tableColHeader: {
+      width: '33.33%',
+      borderStyle: 'solid',
+      borderBottomWidth: 1,
+      backgroundColor: '#f2f2f2',
+      padding: 5,
+      fontWeight: 'bold',
+    },
+    tableCol: {
+      width: '33.33%',
+      borderStyle: 'solid',
+      borderBottomWidth: 1,
+      padding: 5,
+    },
+    tableCell: {
+      margin: 5,
+      fontSize: 10,
+    },
   });
 
 const PdfPage = () => {
     const location = useLocation();
     const [newCustomer, setNewCustomer] = useState()
     const customerInfo = location.state.customerInfo;
+    const tableData = location.state.tableData;
     const {companyName}= location.state;
     const {companyEmail}= location.state;
     const {phoneNumber}= location.state;
@@ -28,12 +57,51 @@ const PdfPage = () => {
     const {zipAddress}= location.state;    
     const {subtotal} = location.state;
     const {taxRate} = location.state;
-    const {jobDescription} = location.state;
     const {finalPrice} = location.state;
     const {dateOfService} = location.state;
     const {invoiceNumber} = location.state;
+    const {jobDescription} = location.state;
+    
+    const handleTableData = () => {
+      if(tableData===undefined) return;
 
-    console.log(customerInfo)
+        return (
+          <View style={styles.table} id="Table">
+            <View style={styles.tableRow} id="HeaderRow">
+              <View style={styles.tableColHeader} id="ColHeader">
+                <Text style={styles.tableCell}>Description</Text>
+              </View>
+              <View style={styles.tableColHeader} id="ColHeader">
+                <Text style={styles.tableCell}>Quantity</Text>
+              </View>
+              <View style={styles.tableColHeader} id="ColHeader">
+                <Text style={styles.tableCell}>Price</Text>
+              </View>
+              <View style={styles.tableColHeader} id="ColHeader">
+                <Text style={styles.tableCell}>Item Total</Text>
+              </View>
+            </View>
+            {tableData.map((row, index) => (
+              <View style={styles.tableRow} key={index}>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{row.description}</Text>
+                </View>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{row.quantity}</Text>
+                </View>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{"$"+row.price}</Text>
+                </View>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>{"$"+row.itemTotal}</Text>
+                </View>
+              </View>
+            ))}
+            
+          </View>
+        )}
+  
+    console.log(tableData)
     
     const isNew = (customerInfo) => {
       if (customerInfo==undefined) {
@@ -47,7 +115,7 @@ const PdfPage = () => {
       if(customerInfo.companyName === undefined || dateOfService === undefined || finalPrice===undefined){
         toast.error('Please fill out all input completely');
         return;
-    }
+      }
       try {
         var saveButton = document.getElementById(`saveButton`)
         const pdfInfo = await axios.post(`http://localhost:3000/api/generateInvoice`, 
@@ -65,6 +133,7 @@ const PdfPage = () => {
                 finalPrice:finalPrice,
                 dateOfService:dateOfService,
                 invoiceNumber:invoiceNumber,
+                tableData:tableData,
             });
 
         toast.success(`Saved ${customerInfo.companyName}'s Job Successfully`);
@@ -89,13 +158,16 @@ const PdfPage = () => {
         jobDescription = {jobDescription}
         finalPrice = {finalPrice}
         dateOfService = {dateOfService}
-        invoiceNumber = {invoiceNumber}/>)
+        invoiceNumber = {invoiceNumber}
+        tableData = {tableData}
+        handleTableData = {handleTableData()}/>)
         .toBlob()
         .then((blob) => saveAs(blob, `#${invoiceNumber} - ${customerInfo?.companyName || companyName}`));
     }
 
     useEffect(() => {
       isNew(customerInfo);
+      handleTableData();
     }, []);
 
     return (
@@ -127,7 +199,9 @@ const PdfPage = () => {
                     jobDescription = {jobDescription}
                     finalPrice = {finalPrice}
                     dateOfService = {dateOfService}
-                    invoiceNumber = {invoiceNumber}/>
+                    invoiceNumber = {invoiceNumber}
+                    tableData = {tableData}
+                    handleTableData = {handleTableData()}/>
             </PDFViewer>
         </div>
     )

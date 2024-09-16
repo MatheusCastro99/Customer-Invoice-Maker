@@ -82,7 +82,7 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
                       to = {`/pdfPage`}
                       state= {{companyName: currInvoice.companyName, phoneNumber: currInvoice.phoneNumber, companyEmail: currInvoice.companyEmail, streetAddress: currInvoice.streetAddress, cityAddress: currInvoice.streetAddress, stateAddress: currInvoice.stateAddress, zipAddress: currInvoice.zipAddress,
                                 subtotal: currInvoice.subtotal, taxRate: currInvoice.taxRate, jobDescription: currInvoice.jobDescription, finalPrice: currInvoice.finalPrice, 
-                                dateOfService: currInvoice.dateOfService, invoiceNumber: currInvoice.invoiceNumber}}
+                                dateOfService: currInvoice.dateOfService, invoiceNumber: currInvoice.invoiceNumber, tableData: currInvoice.tableData}}
                       className="inline-block text-center text-sm bg-blue-500 font-semibold text-white rounded px-2 py-1 transition ease-in-out duration-300 hover:bg-blue-600 hover:cursor-pointer">
                       PDF
                   </Link>
@@ -90,7 +90,7 @@ const TableInvoice = ({ invoices, getInvoices, customers}) => {
               </td>
               <td className="p-4 border-b ">
                 <Collapsible trigger={"Show"}>
-                  <p>Job Breakdown: {currInvoice.jobDescription}</p>
+                  <p>Job Breakdown: {currInvoice.jobDescription || "Check PDF"}</p>
                   <p>Subtotal: ${currInvoice.subtotal}</p>
                   <p>Tax: ${(currInvoice.subtotal*(currInvoice.taxRate/100)).toFixed(2)}</p>  
                 </Collapsible>

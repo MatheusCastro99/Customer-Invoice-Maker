@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {Select} from "flowbite-react"
 import Divider from '@mui/material/Divider'
-import { Chip } from "@mui/material";
+import { Chip, Switch, FormControlLabel } from "@mui/material";
 import Collapsible from 'react-collapsible';
 import CustomerInfo from "../components/CustomerInfo";
+import TableDescription from "../components/TableDescription";
 
 const InvoicePage = () => {
     const [jobPrice, setJobPrice] = useState(Number)
@@ -20,6 +21,8 @@ const InvoicePage = () => {
     const [dateValidity, setDateValidity] = useState(false);
     const [invoiceNumValidity, setInvoiceNumValidity] = useState(false);
     const [invoicesArr, setInvoicesArr] = useState([]);
+    const [openTable, setOpenTable] = useState(false);
+    const [tableData, setTableData] = useState([]);
     const invoiceNumField = document.getElementById("invoiceNum");
     const pdfButtonField = document.getElementById("pdfButton");
     const dateField = document.getElementById('dateField');
@@ -54,11 +57,21 @@ const InvoicePage = () => {
   }
 
     const handleJobPrice = async(e) => {
-      setJobPrice(e.target.value)
+      let tempSubtotal;
+      
+      if(e.target === undefined) {
+        tempSubtotal = e;
+      }
+      else{
+        tempSubtotal = e.target.value
+      }
+
+      setJobPrice(tempSubtotal)
       const getFinalPrice = await axios.put(`http://localhost:3000/api/taxinfo/getTaxAmount`, 
-        {jobPrice:e.target.value, taxRate: correspondingTax, jobDescription: jobDescription})
+        {jobPrice:tempSubtotal, taxRate: correspondingTax, jobDescription: jobDescription})
       setFinalPrice(getFinalPrice.data)
     }
+
     const handleTax = async(state) => {
       const getTaxRate = await axios.put(`http://localhost:3000/api/taxinfo/getTaxRate`, {state:state});
       setCorrespondingTax(getTaxRate.data);
@@ -135,6 +148,23 @@ const InvoicePage = () => {
         )
       }
     }
+    const handleChildData = (descriptionData) => {
+      setTableData(descriptionData);
+
+      let updatedSubtotal = 0;
+      descriptionData.map((item, i) => {
+        updatedSubtotal += descriptionData[i]['itemTotal'];
+      })
+
+      setJobPrice(updatedSubtotal);
+      handleJobPrice(updatedSubtotal);
+      //console.log(tableData);
+    }
+
+    const handleJobInfo = () => {
+      //console.log("test")
+      openTable?setOpenTable(false):setOpenTable(true);
+    }
 
     const fetchData = async () => {
         try {
@@ -146,11 +176,11 @@ const InvoicePage = () => {
 
     useEffect( () => {fetchData(), getInvoices()},[]);
         return (
-            <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
+            <div className="max-w-xl bg-white shadow-lg mx-auto p-7 rounded mt-6">
                 <h2 id="home" className="font-semibold text-2xl mb-4 block text-center">
                     Generate Invoice
                 </h2>
-                <div className="max-w-md">
+                <div className="w-full px-4">
                     <div className="mt-3">
                         <Select onChange = {(e)=>(requestInfo(e))} id="customers" required>
                             <option>Select Company</option>
@@ -166,7 +196,7 @@ const InvoicePage = () => {
                             <CustomerInfo
                               customer = {tempCustomer}/>
                           </div>
-                          <div className="w-full flex justify-center px-10 mt-5">
+                          <div className="flex justify-center px-10 mt-5">
                             <Link
                               to={`/edit/${tempCustomer._id}`}
                               className="inline-block w-1/2 text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
@@ -175,9 +205,10 @@ const InvoicePage = () => {
                           </div>
                       </div>
                 </div>
-                <div className="mt-7 mb-3">
+                <div className="mt-7 mb-3 px-3">
                   <Collapsible trigger={<Divider variant="middle" className="bg-color-red"><Chip label="Job Information ⤵" size="small" /></Divider>} open={true}>
                     <div className="rows mt-2">
+                    <div className="ml-3 font-semibold"><FormControlLabel control={<Switch onChange={handleJobInfo}/>}/>Table Form</div>
                         <label className="mb-2 block font-semibold row">
                           Date of Service:
                         </label>
@@ -203,7 +234,13 @@ const InvoicePage = () => {
                           placeholder="Enter Invoice Number"
                         />
                       </div>
-                    <div>
+                      <div><Collapsible open={openTable}>
+                        <div>
+                          <TableDescription 
+                            dataCallBack = {handleChildData} />
+                        </div>
+                      </Collapsible></div>
+                      <div><Collapsible open={!openTable}>
                         <label className="mb-2 block font-semibold">
                           Job Description
                         </label>
@@ -214,16 +251,17 @@ const InvoicePage = () => {
                           className="w-full font-semibold text-lg mb-2 block text-center"
                           placeholder="Enter Job Description"
                         />
-                    </div>
+                      </Collapsible></div>
                     <div>
-                        <label className="mb-2 block font-semibold">
+                        <label className="mb-2 mt-2 block font-semibold">
                           Subtotal
                         </label>
                         <input
+                          readOnly={openTable}
                           type="text"
-                          value={jobPrice || ''}
+                          value={ (jobPrice===0.00?'':jobPrice)}
                           onChange={handleJobPrice}
-                          className="w-full font-semibold text-lg mb-2 block text-center"
+                          className="w-full font-semibold text-lg mb-2 block text-right"
                           placeholder="Enter Job Subtotal"
                         />
                     </div>
@@ -264,7 +302,7 @@ const InvoicePage = () => {
                           type="text"
                           className="w-full font-semibold text-lg mb-2 block text-center"
                           placeholder="Total Price"
-                          value={"$"+[parseFloat(finalPrice).toFixed(2) || '']}
+                          value={"$"+[parseFloat(finalPrice).toFixed(2) || 0]}
                         />
                     </div>
                   </Collapsible>
@@ -274,7 +312,7 @@ const InvoicePage = () => {
                       id="pdfButton"
                       to = {`/pdfPage`}
                       onClick={checkValidity}
-                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService, invoiceNumber: invoiceNumber}}
+                      state= {{customerInfo: tempCustomer, subtotal: jobPrice, taxRate: correspondingTax, jobDescription: jobDescription, finalPrice: finalPrice, dateOfService: dateOfService, invoiceNumber: invoiceNumber, tableData: tableData}}
                       className="inline-block w-1/2 text-center shadow-md text-sm bg-blue-500 text-white rounded-lg px-4 py-1 font-bold transition ease-in-out duration-300 hover:scale-110 hover:bg-blue-600 hover:cursor-pointer">
                       Generate PDF
                   </Link>

@@ -57,6 +57,11 @@ const invoiceSchema = mongoose.Schema(
       required: false,
     },
 
+    tableData: {
+      type: Array,
+      required: false,
+    },
+
     taxRate: {
       type: Number,
       required: false,

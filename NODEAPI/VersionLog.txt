@@ -71,3 +71,13 @@ V1.01
         - Visual effects for errors in formatting/verification were improved to help user see specifically which field is failing validation
         - Company Name is now a mandatory field, while contact name is no longer a requirement
 }
+
+V1.11
+{
+    Invoice Page:
+        - Introduced Table form as a alternative to Job Description. This is intended to make it easier to "itemize" and organize the invoice.
+        - All necessary corrections and adjustments were done to support this new feature.
+    
+    PdfPage:
+        - Adjusted the pdf format to display, dynamically, the table content or the Job Description, depending on how the invoice was created.
+}
