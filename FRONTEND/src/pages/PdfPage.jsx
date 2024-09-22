@@ -2,46 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { StyleSheet, PDFViewer, pdf, View, Text} from '@react-pdf/renderer';
+import {tableDataStyle} from "../pdfStyle";
 import {saveAs} from "file-saver"
 import MyDocument from "../components/PdfDocument";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-const styles = StyleSheet.create({
-    viewer: {
-      width: "100%",
-      height: "880px",
-    },
-    table: {
-      display: 'table',
-      width: 'auto',
-      borderStyle: 'solid',
-      borderWidth: 1,
-      borderColor: '#000',
-    },
-    tableRow: {
-      flexDirection: 'row',
-    },
-    tableColHeader: {
-      width: '33.33%',
-      borderStyle: 'solid',
-      borderBottomWidth: 1,
-      backgroundColor: '#f2f2f2',
-      padding: 5,
-      fontWeight: 'bold',
-    },
-    tableCol: {
-      width: '33.33%',
-      borderStyle: 'solid',
-      borderBottomWidth: 1,
-      padding: 5,
-    },
-    tableCell: {
-      margin: 5,
-      fontSize: 10,
-    },
-  });
+const styles = tableDataStyle;
 
 const PdfPage = () => {
     const location = useLocation();

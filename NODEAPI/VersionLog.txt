@@ -81,3 +81,17 @@ V1.11
     PdfPage:
         - Adjusted the pdf format to display, dynamically, the table content or the Job Description, depending on how the invoice was created.
 }
+
+v1.21
+{
+    Table Invoice Component:
+        - added a month filter component that will filter the invoices based on the month selected out of the calendar.
+        - added download invoice option within the table, which is compatible with the month filtering and profile page invoices.
+    Create Page / Edit Page:
+        - Phone number field now allows the input of 10 straight digits (XXXXXXXXXX) and will format it once unfocused.
+        - All of 50 US States are now supported in this web application. All tax information was imported and is now available to use.
+    taxController:
+        - refactored switch case function to a taxRateDictionary for cleaningness and effectiveness purposes.
+    PdfPage:
+        - refactored the table styles components.
+}

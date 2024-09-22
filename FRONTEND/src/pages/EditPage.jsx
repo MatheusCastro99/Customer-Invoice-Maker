@@ -91,7 +91,7 @@ const EditPage = () => {
 }
 
   const validateNumber = (tempNumber) => {
-    const valNumber = '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
+    const valNumber = '^(\\d{10}|\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4})$$'
     var phoneTempField = document.getElementById(`phoneField`)
 
     if (tempNumber=="") {
@@ -126,12 +126,18 @@ const EditPage = () => {
         phoneTempField.classList.add('border-green-500')
 
         let chars = [...tempNumber]
-        if (chars.length<14) {
-            chars.splice(0, 0, "(");
-            chars.splice(4, 1, ") ");
-            chars.splice(8, 1, "-");
-            setPhoneNumber(chars.join(''));
-        }
+        if (chars.length==12) {
+          chars.splice(0, 0, "(");
+          chars.splice(4, 1, ") ");
+          chars.splice(8, 1, "-");
+          setPhoneNumber(chars.join(''));
+      }
+      else if(chars.length==10){
+          chars.splice(0, 0, "(")
+          chars.splice(4, 0, ") ")
+          chars.splice(8, 0, "-")
+          setPhoneNumber(chars.join(''));
+      }
 
         setPhoneValidity(true)
     }

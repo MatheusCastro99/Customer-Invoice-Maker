@@ -10,12 +10,9 @@ import TableInvoice from "../components/TableInvoice";
 //CREATE PAGE: IMPLEMENT VERIFICATION TO PREVENT CUSTOMERS DUPLICATES
       //Verification can be done on server side when new customer info is sent to customerController
       //Same logic will also serve as basis to refactor some validation on server side as well
-//PDF/INVOICE: CHANGE JOB DESCRIPTION TO A LIST OF ITEMS WITH 4 COLUMNS, ITEM, QTY, EA PRICE, TOTAL. DO MATH FOR SUBTOTAL AUTOMATICALLY
-//DATE RANGE FILTER FOR INVOICE LIST
-      //Create new component and then load it on TableInvoice
-      //https://mui.com/x/react-date-pickers/date-range-picker/#uncontrolled-vs-controlled-value Date range component. Use controlled version
-      //and slice the month selected to filter invoices dateOfService field
-      //year may be necessary to handle interyears dates (e.g. Dec (12) 2024 - Feb (02) 2025)
+//HOME PAGE: ADD A SEARCHBAR / AUTOCOMPLETE BY GENERATE INVOICE INTENDED TO FILTER CUSTOMERS
+//INVOICE PAGE: ADD A SEARCHBAR / AUTOCOMPLETE BY GENERATE INVOICE INTENDED TO FILTER CUSTOMERS
+//TABLE DESCRIPTION / INVOICE PAGE: ADD A DISCOUNT OPTION (% OFF THE SUBTOTAL)
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +49,7 @@ const HomePage = () => {
     getInvoices();
   }, []);
 
-  return ( //ADD A SEARCHBAR BY GENERATE INVOICE SIDE
+  return (
     <div className="">
       <div className="flex justify-between">
         <div className="inline-block">

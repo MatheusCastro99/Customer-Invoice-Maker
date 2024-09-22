@@ -82,7 +82,7 @@ const CreatePage = () => {
     }
 
     const validateNumber = (tempNumber) => {
-        const valNumber = '^\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$'
+        const valNumber = '^(\\d{10}|\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4})$'  //^(\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}|\d{9})$
         var phoneTemp = document.getElementById(`phoneField`)
 
         if (tempNumber=="") {
@@ -104,6 +104,7 @@ const CreatePage = () => {
                     <p>XXX XXX XXXX</p> <br/>
                     <p>(XXX) XXX-XXXX</p> <br/>
                     <p>XXX-XXX-XXXX</p>
+                    <p>XXXXXXXXXX</p>
                 </div>
             )
 
@@ -117,10 +118,17 @@ const CreatePage = () => {
             phoneTemp.classList.add('border-green-500')
 
             let chars = [...tempNumber]
-            if (chars.length<14) {
+            console.log(chars.length)
+            if (chars.length==12) {
                 chars.splice(0, 0, "(");
                 chars.splice(4, 1, ") ");
                 chars.splice(8, 1, "-");
+                setPhoneNumber(chars.join(''));
+            }
+            else if(chars.length==10){
+                chars.splice(0, 0, "(")
+                chars.splice(4, 0, ") ")
+                chars.splice(8, 0, "-")
                 setPhoneNumber(chars.join(''));
             }
             
@@ -262,7 +270,7 @@ const CreatePage = () => {
                                 <input type="text" value={cityAddress} onChange={(e) => setCityAddress(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="City" />
                             </div>
                             <div>
-                                <label className="text-gray-600 mb-2 block font-semibold">State</label>
+                                <label className="text-gray-600 mb-2 block font-semibold">State (Abbrev)</label>
                                 <input type="text" value={stateAddress} onChange={(e) => setStateAddress(e.target.value)} className="w-3/4 flex ml-7 border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="State" />
                             </div>
                             <div>
