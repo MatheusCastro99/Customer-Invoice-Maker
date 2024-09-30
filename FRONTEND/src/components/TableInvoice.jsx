@@ -1,5 +1,5 @@
 import { Switch, FormControlLabel } from "@mui/material";
-import dayjs from 'dayjs'
+import dayjs from "dayjs"
 import {tableDataStyle} from "../pdfStyle";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
