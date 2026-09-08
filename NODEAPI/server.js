@@ -75,7 +75,7 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Debug endpoint (temporary): expose minimal DB connection metadata to assist debugging
+// Debug endpoint: expose minimal DB connection metadata to assist debugging
 app.get('/debug/db', (req, res) => {
   const conn = mongoose.connection;
   res.status(200).json({
