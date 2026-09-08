@@ -1,5 +1,5 @@
 {
-  "name": "InvoiceMe-api",
+  "name": "InvoiceMe-API",
   "version": "1.0.0",
   "description": "InvoiceMe API - Customer and Invoice Management",
   "main": "server.js",

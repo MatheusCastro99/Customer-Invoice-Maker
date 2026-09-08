@@ -1,15 +1,24 @@
 {
-  "name": "invoice-me-monorepo",
+  "name": "InvoiceMe",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Root helper scripts for local development (starts frontend and API together)",
   "devDependencies": {
-    "concurrently": "^8.0.0"
+    "concurrently": "^8.0.0",
+    "wait-on": "^8.0.0"
   },
   "scripts": {
     "dev:api": "npm --prefix NODEAPI run dev",
     "dev:frontend": "npm --prefix FRONTEND run dev",
-    "dev": "concurrently -k \"npm:dev:api\" \"npm:dev:frontend\"",
+    "dev:browserStart": "start http://localhost:5173",
+
+    "wait:api": "wait-on http://localhost:3000/health",
+    "wait:frontend": "wait-on http://localhost:5173",
+
+    "dev:frontend:ready": "npm run wait:api --silent && npm --prefix FRONTEND run dev",
+    "dev:browser:ready": "npm run wait:frontend --silent && npm run dev:browserStart",
+
+    "dev": "concurrently \"npm:dev:api\" \"npm:dev:frontend:ready\" \"npm:dev:browser:ready\"",
     "start:api": "npm --prefix NODEAPI start",
     "start:frontend": "npm --prefix FRONTEND start"
   }
