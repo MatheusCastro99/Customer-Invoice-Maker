@@ -2,62 +2,67 @@
 
 A comprehensive, production-ready CRUD application for managing customers and generating invoices for a small businesses.
 
-**Version:** 1.0.0  
-**Status:** Production Ready  
+**Version:** 1.0.0
+**Status:** Production-ready MVP
 **Stack:** MERN (MongoDB, Express.js, React.js, Node.js) + Tailwind CSS
 
 ## Project Health
 
-[![Dependabot](https://img.shields.io/badge/Dependabot-passing-brightgreen)](./.github/dependabot.yml)
+[![Dependabot](https://img.shields.io/badge/Dependabot-passing-brightgreen)](../.github/dependabot.yml)
 [![CodeQL](https://github.com/MatheusCastro99/InvoiceMe/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/MatheusCastro99/InvoiceMe/actions/workflows/codeql.yml)
 [![Node.js CI](https://github.com/MatheusCastro99/InvoiceMe/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/MatheusCastro99/InvoiceMe/actions/workflows/node.js.yml)
 
 [![Status](https://img.shields.io/badge/Status-Production--Ready-brightgreen)](https://github.com/MatheusCastro99/InvoiceMe)
-
 [![Node.js](https://img.shields.io/badge/Node.js-API-blue)](https://nodejs.org/learn/)
 [![React](https://img.shields.io/badge/React.js-UI-blue)](https://react.dev/learn)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Database-blue)](https://learn.mongodb.com)
 
-
 ## Project Overview
 
-A full-stack application for managing customers and invoices with professional features:
+InvoiceMe is a full-stack business management app for small businesses that need a lightweight way to manage customer records and generate invoice workflows.
 
-- **API Versioning** - RESTful API with `/api/v1/` routing
-- **Production Ready** - Error handling, detailed validation, modern security principles
-- **Well Documented** - API docs, README and ROADMAP files, inline comments
-- **Environment Configuration** - `.env` based setup
-- **Input Validation** - Front-End Checks for quick user reference + Back-end Validation to enforce standards and business rules
+Current delivery includes:
+
+- **API versioning** with `/api/v1/` routes
+- **Customer CRUD** with validation and duplicate protection
+- **Invoice creation and lookup** with tax-aware business logic
+- **PDF-ready invoice flow** and frontend invoice views
+- **MongoDB-backed persistence** and health checks for runtime validation
+- **Responsive React UI** built with Vite + Tailwind
+- **Environment-based configuration** for local development and deployment
 
 ---
 
 # Project Status
 
+## Current Release Status
+
+The project is currently in an active MVP / production-ready iteration for small-business workflows. Core backend and frontend capabilities are implemented, and the repository includes automated dependency and security checks alongside the main Node.js workflow.
+
 ## Features
 
 **Customer Management**
 
-- View customers with modular pagination
-- Create with validation
-- Edit profiles
-- Delete confirmation
-- Duplicate phone prevention
+- View customers with pagination support
+- Create customer records with validation
+- Edit existing profiles
+- Delete records with confirmation flows
+- Prevent duplicate phone numbers on create/update
 
 **Invoice Management**
 
-- Generate invoices
-- Tax calculations by state
-- PDF exports
-- Invoice history
-- Invoice Number tracking system and duplicate prevention
+- Create invoices from customer and service data
+- Calculate tax by state
+- Maintain invoice history and lookup endpoints
+- Generate invoice data ready for export and PDF rendering
+- Track invoice numbers to avoid duplicates
 
 **User Interface**
 
-- Responsive design
-- Toast notifications
-- Sweet alerts
-- Smooth animations
-- Tailwind styling
+- Responsive layout for desktop and tablet usage
+- Toast notifications and alert dialogs
+- Smooth interaction feedback
+- Tailwind-driven styling and modern React components
 
 ## Validation
 
@@ -119,35 +124,30 @@ curl -X POST http://localhost:3000/api/v1/customers \
 
 **Released Features:**
 
-- API versioning (`/api/v1/`)
-- Error handling improvements
-- Input validation middleware
-- Environment configuration
-- Customer CRUD with validation
-- Invoice management
-- Tax calculations
-- PDF exports
-- Responsive UI
-- Comprehensive documentation
+- API versioning via `/api/v1/`
+- Centralized error handling and validation middleware
+- Environment-based backend configuration
+- Customer CRUD with duplicate prevention
+- Invoice management and tax-aware calculations
+- React frontend for customer and invoice workflows
+- Documentation and roadmap structure in the repo
 
 **Key Improvements:**
 
-- Centralized error handling
-- Custom error classes
-- Validation utilities
-- Fixed CORS configuration
-- API endpoint configuration
-- Pagination support
-- Duplicate prevention
-- Production-ready setup
+- CORS and runtime-health support for local app development
+- Backend route organization by resource
+- Pagination and validation for customer listing and create flows
+- Security and dependency update checks via GitHub workflows
 
-** Future Features and Improvements **
+## Planned Improvements
 
-- AI Environment for Contextualized AI-Assisted Programing
-- In-Memory Cache for frequently reads like customer list and taxes endpoints
-- MailTo feature available to email invoices when customer's email is present
-- Possible Architecture Refactor (Major)
-- Redis Dependency to support production-level cache
+The project roadmap is tracked in [ROADMAP.md](./ROADMAP.md). Current focus areas include:
+
+- AI-assisted development environment
+- In-memory cache for customer list and tax lookups
+- MailTo share/email invoice capability
+- Optional Redis-backed cache layer for production use
+- Potential architecture refactor for greater modularity
 ---
 
 # Documentation
@@ -160,39 +160,44 @@ Generated outputs for this repository are stored in the `graphify-out/` director
 
 ## Key Documentation Files
 
-| File                                                           | Purpose                                   |
-| -------------------------------------------------------------- | ----------------------------------------- |
-| [NODEAPI/API_DOCUMENTATION.md](./NODEAPI/API_DOCUMENTATION.md) | Complete API reference with examples      |
+| File | Purpose |
+| --- | --- |
+| [../README.md](./README.md) | Repository overview and project entry point |
+| [./ROADMAP.md](./ROADMAP.md) | Planned improvements and near-term feature roadmap |
+| [../NODEAPI/API_DOCUMENTATION.md](../NODEAPI/API_DOCUMENTATION.md) | Complete API reference with examples |
 
 ## Project Architecture
 
-  Simple Model-View-Controller Setup
-  
+The current codebase follows a small full-stack MVC-style layout with separate API and frontend concerns.
+
 ```
-CRUD1/
+InvoiceMe/
 ├── NODEAPI/
 │   ├── controllers/    # Business logic
 │   ├── models/         # MongoDB schemas
 │   ├── routes/         # Route handlers
-│   ├── middlewares/    # Express middlewares
-│   ├── utils/          # Errors, validation, constants
-│   ├── server.js       # Express app
+│   ├── middlewares/    # Validation and error handling
+│   ├── utils/          # Shared helpers and constants
+│   ├── server.js       # Express app bootstrap
 │   ├── package.json
-│   ├── .env.example
-│   ├── README.md
-│   └── API_DOCUMENTATION.md
+│   └── .env.example
 ├── FRONTEND/
 │   ├── src/
-│   │   ├── components/ # React components
-│   │   ├── pages/      # Page components
+│   │   ├── components/ # UI blocks and reusable views
+│   │   ├── pages/      # Page-level screens
 │   │   ├── config/     # API configuration
 │   │   └── App.jsx
 │   ├── package.json
-│   ├── .env.example
 │   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── README.md
-└── README.md
+│   └── tailwind.config.js
+├── docs/
+│   ├── README.md
+│   └── ROADMAP.md
+├── package.json        # Root scripts to run API + frontend together
+├── .github/
+│   ├── workflows/
+│   └── dependabot.yml
+├── graphify-out/
 ```
 
 ## API Versioning
@@ -230,9 +235,20 @@ POST   /api/v1/tax/calculate          # Calculate
 
 ### Prerequisites
 
-- Node.js v14+
-- MongoDB Atlas (or local MongoDB)
-- npm/yarn
+- Node.js 18+ recommended
+- MongoDB Atlas or local MongoDB instance
+- npm
+
+## Quick Start (recommended)
+
+From the repository root, install dependencies and run the app in development mode:
+
+```bash
+npm install
+npm run dev
+```
+
+This uses the root workspace scripts to start both the API and frontend together.
 
 ## Backend Setup
 
@@ -242,7 +258,7 @@ npm install
 cp .env.example .env
 # Edit .env with your MongoDB URL.
 # If you do not have MongoDB Atlas, use a local MongoDB instance:
-# MONGO_URL=mongodb://127.0.0.1:27017/ken-tech
+# MONGO_URL=mongodb://127.0.0.1:27017/API-test
 npm run dev
 # Server runs on http://localhost:3000
 ```
@@ -256,7 +272,7 @@ npm run dev
 # App runs on http://localhost:5173
 ```
 
-> Note: This frontend is a Vite application and must be started with `npm run dev` or `npm start` inside the `FRONTEND` folder. Do not use a generic live-server on `index.html` because the app relies on Vite's ES module development server.
+> Note: The frontend is a Vite app and should be started with `npm run dev` or `npm start` inside the `FRONTEND` folder. Avoid launching `index.html` directly because the app relies on Vite's module system.
 
 ## Configuration
 
