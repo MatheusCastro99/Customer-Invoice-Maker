@@ -25,7 +25,7 @@ A full-stack application for managing customers and invoices with professional f
 
 - **API Versioning** - RESTful API with `/api/v1/` routing
 - **Production Ready** - Error handling, detailed validation, modern security principles
-- **Well Documented** - API docs, README files, inline comments
+- **Well Documented** - API docs, README and ROADMAP files, inline comments
 - **Environment Configuration** - `.env` based setup
 - **Input Validation** - Front-End Checks for quick user reference + Back-end Validation to enforce standards and business rules
 
@@ -141,6 +141,12 @@ curl -X POST http://localhost:3000/api/v1/customers \
 - Duplicate prevention
 - Production-ready setup
 
+** Future Features and Improvements **
+
+- AI Environment for Contextualized AI-Assisted Programing
+- In-Memory Cache for frequently reads like customer list and taxes endpoints
+- MailTo feature available to email invoices when customer's email is present
+- Redis Dependency to support production-level cache
 ---
 
 # Documentation
