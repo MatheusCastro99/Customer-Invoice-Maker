@@ -146,6 +146,7 @@ curl -X POST http://localhost:3000/api/v1/customers \
 - AI Environment for Contextualized AI-Assisted Programing
 - In-Memory Cache for frequently reads like customer list and taxes endpoints
 - MailTo feature available to email invoices when customer's email is present
+- Possible Architecture Refactor (Major)
 - Redis Dependency to support production-level cache
 ---
 

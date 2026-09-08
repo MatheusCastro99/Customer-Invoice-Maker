@@ -26,7 +26,13 @@ This roadmap outlines near-term and medium-term improvements for the InvoiceMe b
 - Support sending invoices directly to customers from the invoice view or generated PDF page.
 - Include customer email validation and fallback behavior for missing email addresses.
 
-### 4. Redis dependency to complement cache
+### 4. Possible refactor to a modular-monolithic / service-based architecture
+- Better organization and orientation
+- More expansible
+- More maintenable
+- Follows modern production-ready practices
+
+### 5. Redis dependency to complement cache
 - Introduce Redis as an optional production-grade caching layer.
 - Use Redis for shared cache state across multiple app instances.
 - Keep the application architecture flexible by supporting both in-memory local caching and Redis-backed caching.
@@ -47,4 +53,4 @@ This roadmap outlines near-term and medium-term improvements for the InvoiceMe b
 
 ## Notes
 
-This project is already structured as a small Express + MongoDB API with a React frontend, so the most immediate value is in reducing repeated read queries and improving invoice workflow efficiency rather than large architectural rewrites.
+This project is already structured as a small Express + MongoDB API with a React frontend, so the most immediate value is in addind an ai environment for contextualized developing assistance, reducing repeated read queries, and improving invoice workflow efficiency rather than large architectural rewrites.
