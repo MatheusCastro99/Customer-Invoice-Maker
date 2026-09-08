@@ -3,7 +3,7 @@
  * API v1.0+
  */
 
-// State Tax Rates (as of 2024)
+// State Tax Rates (base state sales tax rates as of 2026; local taxes may apply separately)
 const STATE_TAX_RATES = {
   AL: 4,
   AK: 0,
@@ -22,7 +22,7 @@ const STATE_TAX_RATES = {
   IA: 6,
   KS: 6.5,
   KY: 6,
-  LA: 4.45,
+  LA: 5,
   ME: 5.5,
   MD: 6,
   MA: 6.25,
@@ -35,7 +35,7 @@ const STATE_TAX_RATES = {
   NV: 6.85,
   NH: 0,
   NJ: 6.625,
-  NM: 5.125,
+  NM: 4.875,
   NY: 4,
   NC: 4.75,
   ND: 5,
@@ -45,10 +45,10 @@ const STATE_TAX_RATES = {
   PA: 6,
   RI: 7,
   SC: 6,
-  SD: 4.5,
+  SD: 4.2,
   TN: 7,
   TX: 6.25,
-  UT: 4.85,
+  UT: 6.1,
   VT: 6,
   VA: 5.3,
   WA: 6.5,
